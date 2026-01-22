@@ -4,14 +4,19 @@ Repository containing test automation code examples.
 # todo
 - k6 open model
 - k6 closed model
-- playwright reusable storage state
-- playwright fixture with parameters
+- playwright locators
 - playwright page object model
+- playwright reusable storage state
+- playwright 2fa login
+- playwright fixture with parameters
 - playwright secret handling
 - playwright api testing
-- playwright 2fa login
-- robot framework browser resuable storage state
+- playwright a11y testing
+- playwright mock api response
+- playwright test steps
+- robot framework browser locators
 - robot framework browser page object model
+- robot framework browser resuable storage state
 - robot framework browser promises
 - robot framework api testing
 - robot framework parallel testing
