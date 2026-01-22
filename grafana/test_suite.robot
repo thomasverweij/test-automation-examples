@@ -80,6 +80,7 @@ Test Report Generation
     Log    Generating test report
     ${report_id}=    Evaluate    12345
     Should Be True    ${report_id} > 0
+    Fail  test failure
 
 Test Database Connection
     [Documentation]    Verify database connectivity
