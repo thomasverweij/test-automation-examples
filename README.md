@@ -23,5 +23,6 @@ Repository containing test automation code examples.
 - robot framework secret handling
 - github pipeline
 - jenkins pipeline
-- grafana dashboard
+- grafana functional testing dashboard
+- grafana performance testing dashboard
 - allure dashboard
