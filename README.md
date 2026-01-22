@@ -9,6 +9,7 @@ Repository containing test automation code examples.
 - playwright page object model
 - playwright secret handling
 - playwright api testing
+- playwright 2fa login
 - robot framework browser resuable storage state
 - robot framework browser page object model
 - robot framework browser promises
