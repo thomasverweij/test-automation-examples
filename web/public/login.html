@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-gradient center-page">
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🔐 Login</h1>
+            <p>Test Authentication</p>
+        </div>
+
+        <form id="loginForm" method="POST" action="/login">
+            <div id="errorMessage" class="error-message"></div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Enter username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="submit-btn">Login</button>
+            <div class="loading" id="loading">Logging in...</div>
+        </form>
+
+        <div class="demo-users">
+            <strong>Demo Credentials:</strong>
+            <div class="demo-user">
+                👤 <code>user1</code> / <code>password1</code>
+                <br>
+                <small>(redirects to 2FA page)</small>
+            </div>
+            <div class="demo-user">
+                👤 <code>user2</code> / <code>password2</code>
+                <br>
+                <small>(logs in directly)</small>
+            </div>
+        </div>
+
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const loading = document.getElementById('loading');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            errorMessage.style.display = 'none';
+            loading.style.display = 'block';
+
+            const payload = new URLSearchParams({
+                username: form.username.value,
+                password: form.password.value
+            });
+            
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: payload
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.status === 401) {
+                    return response.text().then(text => {
+                        throw new Error(text);
+                    });
+                } else if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+            })
+            .catch(error => {
+                loading.style.display = 'none';
+                errorMessage.textContent = 'Invalid username or password';
+                errorMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Factor Authentication</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-gradient center-page">
+    <div class="twofa-container">
+        <div class="twofa-header">
+            <div class="icon">🔐</div>
+            <h1>Two-Factor Authentication</h1>
+            <p>Enter the 6-digit code</p>
+        </div>
+
+        <form id="twoFAForm" method="POST" action="/verify-2fa">
+            <div id="errorMessage" class="error-message"></div>
+
+            <div class="form-group">
+                <label for="code">Authentication Code</label>
+                <input 
+                    type="text" 
+                    id="code" 
+                    name="code" 
+                    placeholder="000000"
+                    maxlength="6"
+                    inputmode="numeric"
+                    pattern="[0-9]{6}"
+                    required
+                    autofocus
+                >
+            </div>
+
+            <button type="submit" class="submit-btn">Verify Code</button>
+            <div class="loading" id="loading">Verifying...</div>
+        </form>
+
+        <div class="info-box">
+            <strong>ℹ️ For Testing:</strong>
+            Check the server console output to find the 6-digit code that was generated for your login session.
+        </div>
+
+        <a href="/login" class="back-link">← Back to Login</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('twoFAForm');
+        const codeInput = document.getElementById('code');
+        const errorMessage = document.getElementById('errorMessage');
+        const loading = document.getElementById('loading');
+
+        // Only allow numbers
+        codeInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (codeInput.value.length !== 6) {
+                errorMessage.textContent = 'Please enter a 6-digit code';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            errorMessage.style.display = 'none';
+            loading.style.display = 'block';
+
+            const payload = new URLSearchParams({
+                code: codeInput.value
+            });
+            
+            fetch('/verify-2fa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: payload
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (response.status === 401) {
+                    return response.text().then(text => {
+                        throw new Error(text);
+                    });
+                } else if (!response.ok) {
+                    throw new Error('Verification failed');
+                }
+            })
+            .catch(error => {
+                loading.style.display = 'none';
+                errorMessage.textContent = 'Invalid authentication code. Please try again.';
+                errorMessage.style.display = 'block';
+                codeInput.value = '';
+                codeInput.focus();
+            });
+        });
+    </script>
+</body>
+</html>
