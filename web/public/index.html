@@ -154,7 +154,8 @@
 
                     <div class="element-card">
                         <div class="element-label">Combobox Role</div>
-                        <select role="combobox" id="role-combobox">
+                        <label for="role-combobox">Choose Option</label>
+                        <select role="combobox" id="role-combobox" aria-expanded="false" aria-controls="role-combobox-content" title="Select an option">
                             <option>Select an option</option>
                             <option>Option 1</option>
                             <option>Option 2</option>
@@ -353,6 +354,8 @@
         });
 
         document.getElementById('role-combobox').addEventListener('change', function() {
+            const isOpen = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isOpen);
             document.getElementById('role-combobox-content').classList.toggle('show');
         });
 
