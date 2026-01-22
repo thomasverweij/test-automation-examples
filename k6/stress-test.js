@@ -16,9 +16,19 @@ export const options = {
 };
 
 export default function() {
-  let res = http.get('http://127.0.0.1:8888/');
+  // Randomize which endpoint to test for realistic traffic
+  const endpoints = [
+    'http://127.0.0.1:8888/',
+    'http://127.0.0.1:8888/api/data',
+    'http://127.0.0.1:8888/login',
+  ];
+  
+  const endpoint = endpoints[Math.floor(Math.random() * endpoints.length)];
+  let res = http.get(endpoint);
+  
   check(res, { 
-    "status is 200": (res) => res.status === 200,
+    "status is 200": (r) => r.status === 200,
   });
+  
   sleep(1);
 }

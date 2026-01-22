@@ -11,10 +11,27 @@ export const options = {
 };
 
 export default function() {
-  let res = http.get('http://127.0.0.1:8888/');
-  check(res, { 
-    "status is 200": (res) => res.status === 200,
-    "response time acceptable": (res) => res.timings.duration < 2000,
+  // Test home page
+  let homeRes = http.get('http://127.0.0.1:8888/');
+  check(homeRes, { 
+    "home: status is 200": (r) => r.status === 200,
+    "home: response time acceptable": (r) => r.timings.duration < 2000,
+  });
+  sleep(1);
+
+  // Test API data endpoint
+  let apiRes = http.get('http://127.0.0.1:8888/api/data');
+  check(apiRes, { 
+    "api/data: status is 200": (r) => r.status === 200,
+    "api/data: has message": (r) => r.json('message') !== undefined,
+    "api/data: has items": (r) => r.json('data.items') !== undefined,
+  });
+  sleep(1);
+
+  // Test login page
+  let loginRes = http.get('http://127.0.0.1:8888/login');
+  check(loginRes, { 
+    "login: status is 200": (r) => r.status === 200,
   });
   sleep(1);
 }

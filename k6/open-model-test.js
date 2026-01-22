@@ -22,9 +22,18 @@ export const options = {
 };
 
 export default function() {
-  let res = http.get('http://127.0.0.1:8888/');
+  // Test a mix of endpoints to simulate real traffic
+  const endpoints = [
+    { url: 'http://127.0.0.1:8888/', name: 'home' },
+    { url: 'http://127.0.0.1:8888/api/data', name: 'api' },
+    { url: 'http://127.0.0.1:8888/login', name: 'login' },
+  ];
+  
+  const selected = endpoints[Math.floor(Math.random() * endpoints.length)];
+  let res = http.get(selected.url);
+  
   check(res, { 
-    "status is 200": (res) => res.status === 200,
-    "response time OK": (res) => res.timings.duration < 1500,
+    [`${selected.name}: status is 200`]: (r) => r.status === 200,
+    [`${selected.name}: response time OK`]: (r) => r.timings.duration < 1500,
   });
 }
