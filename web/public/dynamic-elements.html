@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Elements Examples</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-light">
+    <div class="container dashboard">
+        <header class="header">
+            <h1>⚡ Dynamic Elements Examples</h1>
+            <div class="user-info">
+                <a href="/" class="primary-link">← Back to Dashboard</a>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2 class="section-title dashboard">Auto-Waiting Scenarios</h2>
+            
+            <div class="card">
+                <h3>Dynamic Elements (Auto-waiting Scenarios)</h3>
+                <div class="elements-grid">
+                    <div class="element-card">
+                        <div class="element-label">Element Appears After Delay</div>
+                        <button onclick="showDynamicElement('delayed-element')">Trigger Element</button>
+                        <div id="delayed-element" class="delayed-message">✓ I appeared after a delay!</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Element Changes State</div>
+                        <button id="state-button" onclick="changeState(this)">Not Clicked</button>
+                        <div id="state-content" class="dynamic-content">✓ State changed to clicked</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Element Becomes Enabled</div>
+                        <input type="text" id="dynamic-input" placeholder="Type here...">
+                        <button id="dynamic-button" disabled>Submit (Initially Disabled)</button>
+                        <div id="dynamic-button-content" class="dynamic-content">✓ Button is now enabled</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">List Appends Items</div>
+                        <button onclick="addListItem()">Add Item</button>
+                        <ul id="dynamic-list" class="plain-list spaced">
+                            <li class="list-item">Item 1</li>
+                        </ul>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Modal Appears</div>
+                        <button onclick="showModal()">Open Modal</button>
+                        <div id="modal-overlay" class="modal-overlay">
+                            <div class="modal-card">
+                                <h3>Modal Content</h3>
+                                <p>This modal appears dynamically</p>
+                                <button onclick="closeModal()">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dynamic Elements Functions
+        function showDynamicElement(elementId) {
+            setTimeout(() => {
+                document.getElementById(elementId).style.display = 'block';
+            }, 1500);
+        }
+
+        function changeState(button) {
+            button.textContent = 'Clicked';
+            button.style.background = '#48bb78';
+            document.getElementById('state-content').classList.add('show');
+        }
+
+        // Enable button when input has text
+        document.getElementById('dynamic-input').addEventListener('input', function() {
+            const button = document.getElementById('dynamic-button');
+            if (this.value.length > 0) {
+                button.disabled = false;
+                document.getElementById('dynamic-button-content').classList.add('show');
+            } else {
+                button.disabled = true;
+                document.getElementById('dynamic-button-content').classList.remove('show');
+            }
+        });
+
+        let itemCount = 1;
+        function addListItem() {
+            itemCount++;
+            const list = document.getElementById('dynamic-list');
+            const li = document.createElement('li');
+            li.textContent = `Item ${itemCount}`;
+            li.classList.add('list-item');
+            list.appendChild(li);
+        }
+
+        function showModal() {
+            document.getElementById('modal-overlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

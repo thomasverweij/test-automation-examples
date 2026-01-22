@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role-Based Selectors Examples</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-light">
+    <div class="container dashboard">
+        <header class="header">
+            <h1>♿ Role-Based Selectors Examples</h1>
+            <div class="user-info">
+                <a href="/" class="primary-link">← Back to Dashboard</a>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2 class="section-title dashboard">Accessibility-Focused Selector Techniques</h2>
+            
+            <div class="card">
+                <h3>Role-Based Selectors (Accessibility)</h3>
+                <div class="elements-grid">
+                    <div class="element-card">
+                        <div class="element-label">Button Role</div>
+                        <button role="button" id="role-button">Click Me (Button Role)</button>
+                        <div class="dynamic-content" id="role-button-content">✓ Found by button role</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Link Role</div>
+                        <a href="#" role="link" id="role-link">Click Link</a>
+                        <div class="dynamic-content" id="role-link-content">✓ Found by link role</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Textbox Role</div>
+                        <input type="text" role="textbox" id="role-textbox" placeholder="Enter text...">
+                        <div class="dynamic-content" id="role-textbox-content">✓ Found by textbox role</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Checkbox Role</div>
+                        <input type="checkbox" role="checkbox" id="role-checkbox">
+                        <label for="role-checkbox">Accept Terms</label>
+                        <div class="dynamic-content" id="role-checkbox-content">✓ Found by checkbox role</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">Combobox Role</div>
+                        <label for="role-combobox">Choose Option</label>
+                        <select role="combobox" id="role-combobox" aria-expanded="false" aria-controls="role-combobox-content" title="Select an option">
+                            <option>Select an option</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                        </select>
+                        <div class="dynamic-content" id="role-combobox-content">✓ Found by combobox role</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Role-Based Handlers
+        document.getElementById('role-button').addEventListener('click', function() {
+            document.getElementById('role-button-content').classList.toggle('show');
+        });
+
+        document.getElementById('role-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('role-link-content').classList.toggle('show');
+        });
+
+        document.getElementById('role-textbox').addEventListener('click', function() {
+            document.getElementById('role-textbox-content').classList.toggle('show');
+        });
+
+        document.getElementById('role-checkbox').addEventListener('change', function() {
+            document.getElementById('role-checkbox-content').classList.toggle('show');
+        });
+
+        document.getElementById('role-combobox').addEventListener('change', function() {
+            const isOpen = this.getAttribute('aria-expanded') === 'true';
+            this.setAttribute('aria-expanded', !isOpen);
+            document.getElementById('role-combobox-content').classList.toggle('show');
+        });
+    </script>
+</body>
+</html>

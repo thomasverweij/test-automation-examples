@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing Examples</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-light">
+    <div class="container dashboard">
+        <header class="header">
+            <h1>🔌 API Testing Examples</h1>
+            <div class="user-info">
+                <a href="/" class="primary-link">← Back to Dashboard</a>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2 class="section-title dashboard">API Testing Endpoints</h2>
+            
+            <div class="card">
+                <h3>GET /api/data</h3>
+                <p>Returns a simple JSON response with some test data.</p>
+                <button class="primary-link" id="btn-api-data" type="button">Try Request</button>
+                <div id="resp-api-data" class="response-box"></div>
+            </div>
+
+            <div class="card">
+                <h3>GET /api/unreliable</h3>
+                <p>Randomly returns a 500 error or a successful response (50/50 chance).</p>
+                <button class="primary-link" id="btn-api-unreliable" type="button">Try Request</button>
+                <div id="resp-api-unreliable" class="response-box"></div>
+            </div>
+
+            <div class="card">
+                <h3>GET /api/slow</h3>
+                <p>Returns a response after a random delay of 1-6 seconds.</p>
+                <button class="primary-link" id="btn-api-slow" type="button">Try Request</button>
+                <div id="resp-api-slow" class="response-box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API call helpers
+        async function callApi(buttonId, responseId, url) {
+            const button = document.getElementById(buttonId);
+            const box = document.getElementById(responseId);
+            if (!button || !box) return;
+            box.classList.add('show');
+            box.classList.remove('error');
+            box.textContent = '⏳ Loading...';
+            try {
+                const resp = await fetch(url, { credentials: 'include' });
+                const text = await resp.text();
+                let parsed;
+                try { parsed = JSON.parse(text); } catch (e) { parsed = text; }
+                box.textContent = typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2);
+                if (!resp.ok) {
+                    box.classList.add('error');
+                }
+            } catch (err) {
+                box.textContent = `Error: ${err.message}`;
+                box.classList.add('error');
+            }
+        }
+
+        // Wire API try buttons
+        document.getElementById('btn-api-data').addEventListener('click', () => callApi('btn-api-data', 'resp-api-data', '/api/data'));
+        document.getElementById('btn-api-unreliable').addEventListener('click', () => callApi('btn-api-unreliable', 'resp-api-unreliable', '/api/unreliable'));
+        document.getElementById('btn-api-slow').addEventListener('click', () => callApi('btn-api-slow', 'resp-api-slow', '/api/slow'));
+    </script>
+</body>
+</html>

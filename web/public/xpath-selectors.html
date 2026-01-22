@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Selectors Examples</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-light">
+    <div class="container dashboard">
+        <header class="header">
+            <h1>🔍 XPath Selectors Examples</h1>
+            <div class="user-info">
+                <a href="/" class="primary-link">← Back to Dashboard</a>
+            </div>
+        </header>
+
+        <div class="section">
+            <h2 class="section-title dashboard">XPath Selector Techniques</h2>
+            
+            <div class="card">
+                <h3>XPath Selectors</h3>
+                <div class="elements-grid">
+                    <div class="element-card">
+                        <div class="element-label">XPath by Text</div>
+                        <button class="xpath-button">Find By Text</button>
+                        <div class="dynamic-content" id="xpath-text-content">✓ Found using XPath text()</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">XPath by Attribute</div>
+                        <input type="text" placeholder="XPath Attr Input" data-xpath-attr="test-value">
+                        <button onclick="document.getElementById('xpath-attr-content').classList.toggle('show')">Verify Input</button>
+                        <div class="dynamic-content" id="xpath-attr-content">✓ Input found by XPath attribute</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">XPath by Position</div>
+                        <button>Button 1</button>
+                        <button>Button 2</button>
+                        <button id="button-position-3">Button 3</button>
+                        <button onclick="document.getElementById('xpath-position-content').classList.toggle('show')">Show Position 3</button>
+                        <div class="dynamic-content" id="xpath-position-content">✓ Found Button 3 by position</div>
+                    </div>
+
+                    <div class="element-card">
+                        <div class="element-label">XPath Complex</div>
+                        <div class="complex-xpath-container">
+                            <span data-level="1">Level 1</span>
+                            <span data-level="2">Level 2</span>
+                        </div>
+                        <button onclick="document.getElementById('xpath-complex-content').classList.toggle('show')">Find Complex</button>
+                        <div class="dynamic-content" id="xpath-complex-content">✓ Complex XPath executed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // XPath Button Handlers
+        document.querySelector('.xpath-button').addEventListener('click', function() {
+            document.getElementById('xpath-text-content').classList.toggle('show');
+        });
+    </script>
+</body>
+</html>

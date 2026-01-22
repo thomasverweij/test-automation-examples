@@ -28,246 +28,50 @@
         </div>
 
         <div class="section">
-            <h2 class="section-title dashboard">API Testing Endpoints</h2>
+            <h2 class="section-title dashboard">API Testing Examples</h2>
             <div class="card">
-                <h3>GET /api/data</h3>
-                <p>Returns a simple JSON response with some test data.</p>
-                <button class="primary-link" id="btn-api-data" type="button">Try Request</button>
-                <div id="resp-api-data" class="response-box"></div>
-            </div>
-            <div class="card">
-                <h3>GET /api/unreliable</h3>
-                <p>Randomly returns a 500 error or a successful response (50/50 chance).</p>
-                <button class="primary-link" id="btn-api-unreliable" type="button">Try Request</button>
-                <div id="resp-api-unreliable" class="response-box"></div>
-            </div>
-            <div class="card">
-                <h3>GET /api/slow</h3>
-                <p>Returns a response after a random delay of 1-6 seconds.</p>
-                <button class="primary-link" id="btn-api-slow" type="button">Try Request</button>
-                <div id="resp-api-slow" class="response-box"></div>
+                <h3>🔌 API Endpoints</h3>
+                <p>Test various API scenarios including reliable, unreliable, and slow endpoints.</p>
+                <a href="/api-examples.html" class="primary-link">View API Examples →</a>
             </div>
         </div>
 
         <div class="section">
             <h2 class="section-title dashboard">Locator Examples</h2>
-
-            <!-- CSS SELECTORS SECTION -->
+            
             <div class="card">
-                <h3>CSS Selectors</h3>
-                <div class="elements-grid">
-                    <div class="element-card">
-                        <div class="element-label">ID Selector</div>
-                        <button id="css-id-button">Click Me (ID)</button>
-                        <div class="dynamic-content" id="css-id-content">✓ Found by ID: css-id-button</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Class Selector</div>
-                        <button class="css-class-button">Click Me (Class)</button>
-                        <div class="dynamic-content" id="css-class-content">✓ Found by Class: css-class-button</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Attribute Selector</div>
-                        <button data-testid="css-attr-button">Click Me (Attr)</button>
-                        <div class="dynamic-content" id="css-attr-content">✓ Found by data-testid attribute</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Descendant Selector</div>
-                        <div class="css-parent">
-                            <span id="css-nested-span">Parent > Child</span>
-                        </div>
-                        <button onclick="document.getElementById('css-descendant-content').classList.toggle('show')">Show Element</button>
-                        <div class="dynamic-content" id="css-descendant-content">✓ Found via descendant selector</div>
-                    </div>
-                </div>
+                <h3>📌 CSS Selectors</h3>
+                <p>Examples of locating elements using ID, class, attribute, and descendant selectors.</p>
+                <a href="/css-selectors.html" class="primary-link">View CSS Examples →</a>
             </div>
 
-            <!-- XPATH SECTION -->
             <div class="card">
-                <h3>XPath Selectors</h3>
-                <div class="elements-grid">
-                    <div class="element-card">
-                        <div class="element-label">XPath by Text</div>
-                        <button class="xpath-button">Find By Text</button>
-                        <div class="dynamic-content" id="xpath-text-content">✓ Found using XPath text()</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">XPath by Attribute</div>
-                        <input type="text" placeholder="XPath Attr Input" data-xpath-attr="test-value">
-                        <button onclick="document.getElementById('xpath-attr-content').classList.toggle('show')">Verify Input</button>
-                        <div class="dynamic-content" id="xpath-attr-content">✓ Input found by XPath attribute</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">XPath by Position</div>
-                        <button>Button 1</button>
-                        <button>Button 2</button>
-                        <button id="button-position-3">Button 3</button>
-                        <button onclick="document.getElementById('xpath-position-content').classList.toggle('show')">Show Position 3</button>
-                        <div class="dynamic-content" id="xpath-position-content">✓ Found Button 3 by position</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">XPath Complex</div>
-                        <div class="complex-xpath-container">
-                            <span data-level="1">Level 1</span>
-                            <span data-level="2">Level 2</span>
-                        </div>
-                        <button onclick="document.getElementById('xpath-complex-content').classList.toggle('show')">Find Complex</button>
-                        <div class="dynamic-content" id="xpath-complex-content">✓ Complex XPath executed</div>
-                    </div>
-                </div>
+                <h3>🔍 XPath Selectors</h3>
+                <p>Examples of XPath locators including text, attribute, position, and complex queries.</p>
+                <a href="/xpath-selectors.html" class="primary-link">View XPath Examples →</a>
             </div>
 
-            <!-- ROLE-BASED SELECTORS SECTION -->
             <div class="card">
-                <h3>Role-Based Selectors (Accessibility)</h3>
-                <div class="elements-grid">
-                    <div class="element-card">
-                        <div class="element-label">Button Role</div>
-                        <button role="button" id="role-button">Click Me (Button Role)</button>
-                        <div class="dynamic-content" id="role-button-content">✓ Found by button role</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Link Role</div>
-                        <a href="#" role="link" id="role-link">Click Link</a>
-                        <div class="dynamic-content" id="role-link-content">✓ Found by link role</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Textbox Role</div>
-                        <input type="text" role="textbox" id="role-textbox" placeholder="Enter text...">
-                        <div class="dynamic-content" id="role-textbox-content">✓ Found by textbox role</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Checkbox Role</div>
-                        <input type="checkbox" role="checkbox" id="role-checkbox">
-                        <label for="role-checkbox">Accept Terms</label>
-                        <div class="dynamic-content" id="role-checkbox-content">✓ Found by checkbox role</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Combobox Role</div>
-                        <label for="role-combobox">Choose Option</label>
-                        <select role="combobox" id="role-combobox" aria-expanded="false" aria-controls="role-combobox-content" title="Select an option">
-                            <option>Select an option</option>
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                        </select>
-                        <div class="dynamic-content" id="role-combobox-content">✓ Found by combobox role</div>
-                    </div>
-                </div>
+                <h3>♿ Role-Based Selectors</h3>
+                <p>Accessibility-focused examples using ARIA roles for buttons, links, textboxes, and more.</p>
+                <a href="/role-selectors.html" class="primary-link">View Role Examples →</a>
             </div>
 
-            <!-- TEXT-BASED SELECTORS SECTION -->
             <div class="card">
-                <h3>Text-Based Selectors</h3>
-                <div class="elements-grid">
-                    <div class="element-card">
-                        <div class="element-label">Button by Exact Text</div>
-                        <button id="text-exact">Exact Text Button</button>
-                        <div class="dynamic-content" id="text-exact-content">✓ Found by exact text match</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Button by Partial Text</div>
-                        <button id="text-partial">This Button Has Partial Text</button>
-                        <div class="dynamic-content" id="text-partial-content">✓ Found by partial text match</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Label by Text</div>
-                        <input type="text" id="text-input">
-                        <label for="text-input">Username Field</label>
-                        <div class="dynamic-content" id="text-label-content">✓ Found label by text</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Heading by Text</div>
-                        <h3>Find This Heading</h3>
-                        <button onclick="document.getElementById('text-heading-content').classList.toggle('show')">Search for Heading</button>
-                        <div class="dynamic-content" id="text-heading-content">✓ Found heading by text</div>
-                    </div>
-                </div>
+                <h3>📝 Text-Based Selectors</h3>
+                <p>Find elements using exact text, partial text, labels, and heading text.</p>
+                <a href="/text-selectors.html" class="primary-link">View Text Examples →</a>
             </div>
 
-            <!-- DYNAMIC ELEMENTS SECTION -->
             <div class="card">
-                <h3>Dynamic Elements (Auto-waiting Scenarios)</h3>
-                <div class="elements-grid">
-                    <div class="element-card">
-                        <div class="element-label">Element Appears After Delay</div>
-                        <button onclick="showDynamicElement('delayed-element')">Trigger Element</button>
-                        <div id="delayed-element" class="delayed-message">✓ I appeared after a delay!</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Element Changes State</div>
-                        <button id="state-button" onclick="changeState(this)">Not Clicked</button>
-                        <div id="state-content" class="dynamic-content">✓ State changed to clicked</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Element Becomes Enabled</div>
-                        <input type="text" id="dynamic-input" placeholder="Type here...">
-                        <button id="dynamic-button" disabled>Submit (Initially Disabled)</button>
-                        <div id="dynamic-button-content" class="dynamic-content">✓ Button is now enabled</div>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">List Appends Items</div>
-                        <button onclick="addListItem()">Add Item</button>
-                        <ul id="dynamic-list" class="plain-list spaced">
-                            <li class="list-item">Item 1</li>
-                        </ul>
-                    </div>
-
-                    <div class="element-card">
-                        <div class="element-label">Modal Appears</div>
-                        <button onclick="showModal()">Open Modal</button>
-                        <div id="modal-overlay" class="modal-overlay">
-                            <div class="modal-card">
-                                <h3>Modal Content</h3>
-                                <p>This modal appears dynamically</p>
-                                <button onclick="closeModal()">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h3>⚡ Dynamic Elements</h3>
+                <p>Test auto-waiting scenarios with delayed elements, state changes, and dynamic content.</p>
+                <a href="/dynamic-elements.html" class="primary-link">View Dynamic Examples →</a>
             </div>
         </div>
     </div>
 
     <script>
-        // API call helpers
-        async function callApi(buttonId, responseId, url) {
-            const button = document.getElementById(buttonId);
-            const box = document.getElementById(responseId);
-            if (!button || !box) return;
-            box.classList.add('show');
-            box.classList.remove('error');
-            box.textContent = '⏳ Loading...';
-            try {
-                const resp = await fetch(url, { credentials: 'include' });
-                const text = await resp.text();
-                let parsed;
-                try { parsed = JSON.parse(text); } catch (e) { parsed = text; }
-                box.textContent = typeof parsed === 'string' ? parsed : JSON.stringify(parsed, null, 2);
-                if (!resp.ok) {
-                    box.classList.add('error');
-                }
-            } catch (err) {
-                box.textContent = `Error: ${err.message}`;
-                box.classList.add('error');
-            }
-        }
-
         // Basic auth state probe using /auth/status
         (async () => {
             const loginBtn = document.getElementById('loginBtn');
@@ -311,109 +115,6 @@
                 `;
             }
         })();
-
-        // Wire API try buttons
-        document.getElementById('btn-api-data').addEventListener('click', () => callApi('btn-api-data', 'resp-api-data', '/api/data'));
-        document.getElementById('btn-api-unreliable').addEventListener('click', () => callApi('btn-api-unreliable', 'resp-api-unreliable', '/api/unreliable'));
-        document.getElementById('btn-api-slow').addEventListener('click', () => callApi('btn-api-slow', 'resp-api-slow', '/api/slow'));
-
-        // CSS Selector Click Handlers
-        document.getElementById('css-id-button').addEventListener('click', function() {
-            document.getElementById('css-id-content').classList.toggle('show');
-        });
-
-        document.querySelector('.css-class-button').addEventListener('click', function() {
-            document.getElementById('css-class-content').classList.toggle('show');
-        });
-
-        document.querySelector('[data-testid="css-attr-button"]').addEventListener('click', function() {
-            document.getElementById('css-attr-content').classList.toggle('show');
-        });
-
-        // XPath Button Handlers
-        document.querySelector('.xpath-button').addEventListener('click', function() {
-            document.getElementById('xpath-text-content').classList.toggle('show');
-        });
-
-        // Role-Based Handlers
-        document.getElementById('role-button').addEventListener('click', function() {
-            document.getElementById('role-button-content').classList.toggle('show');
-        });
-
-        document.getElementById('role-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.getElementById('role-link-content').classList.toggle('show');
-        });
-
-        document.getElementById('role-textbox').addEventListener('click', function() {
-            document.getElementById('role-textbox-content').classList.toggle('show');
-        });
-
-        document.getElementById('role-checkbox').addEventListener('change', function() {
-            document.getElementById('role-checkbox-content').classList.toggle('show');
-        });
-
-        document.getElementById('role-combobox').addEventListener('change', function() {
-            const isOpen = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', !isOpen);
-            document.getElementById('role-combobox-content').classList.toggle('show');
-        });
-
-        // Text-Based Handlers
-        document.getElementById('text-exact').addEventListener('click', function() {
-            document.getElementById('text-exact-content').classList.toggle('show');
-        });
-
-        document.getElementById('text-partial').addEventListener('click', function() {
-            document.getElementById('text-partial-content').classList.toggle('show');
-        });
-
-        document.getElementById('text-input').addEventListener('click', function() {
-            document.getElementById('text-label-content').classList.toggle('show');
-        });
-
-        // Dynamic Elements Functions
-        function showDynamicElement(elementId) {
-            setTimeout(() => {
-                document.getElementById(elementId).style.display = 'block';
-            }, 1500);
-        }
-
-        function changeState(button) {
-            button.textContent = 'Clicked';
-            button.style.background = '#48bb78';
-            document.getElementById('state-content').classList.add('show');
-        }
-
-        // Enable button when input has text
-        document.getElementById('dynamic-input').addEventListener('input', function() {
-            const button = document.getElementById('dynamic-button');
-            if (this.value.length > 0) {
-                button.disabled = false;
-                document.getElementById('dynamic-button-content').classList.add('show');
-            } else {
-                button.disabled = true;
-                document.getElementById('dynamic-button-content').classList.remove('show');
-            }
-        });
-
-        let itemCount = 1;
-        function addListItem() {
-            itemCount++;
-            const list = document.getElementById('dynamic-list');
-            const li = document.createElement('li');
-            li.textContent = `Item ${itemCount}`;
-            li.classList.add('list-item');
-            list.appendChild(li);
-        }
-
-        function showModal() {
-            document.getElementById('modal-overlay').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('modal-overlay').style.display = 'none';
-        }
     </script>
 </body>
 </html>
