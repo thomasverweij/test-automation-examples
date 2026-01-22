@@ -8,7 +8,8 @@ Repository containing test automation code examples.
 - playwright page object model
 - playwright reusable storage state
 - playwright 2fa login
-- playwright fixture with parameters
+- playwright fixture
+- playwright parametrized fixture for testdata management
 - playwright secret handling
 - playwright api testing
 - playwright a11y testing
@@ -16,6 +17,7 @@ Repository containing test automation code examples.
 - playwright test steps
 - robot framework browser locators
 - robot framework browser page object model
+- robot framework environment config
 - robot framework browser resuable storage state
 - robot framework browser promises
 - robot framework api testing
