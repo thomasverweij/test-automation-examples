@@ -2,15 +2,8 @@
 Repository containing test automation code examples.
 
 # todo
-- k6 open model
-- k6 closed model
 - playwright locators
-- playwright page object model
-- playwright reusable storage state
-- playwright 2fa login
-- playwright fixture
 - playwright parametrized fixture for testdata management
-- playwright secret handling
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
@@ -25,6 +18,15 @@ Repository containing test automation code examples.
 - robot framework secret handling
 - github pipeline
 - jenkins pipeline
-- grafana functional testing dashboard
 - grafana performance testing dashboard
 - allure dashboard
+
+# done
+- grafana functional testing dashboard
+- playwright page object model
+- playwright reusable storage state
+- playwright 2fa login
+- playwright fixture
+- playwright secret handling
+- k6 open model
+- k6 closed model
