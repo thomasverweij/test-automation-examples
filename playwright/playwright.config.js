@@ -50,15 +50,17 @@ export default defineConfig({
       testMatch: '**/with-test-data.spec.js',
       use: { 
         ...devices['Desktop Chrome'],
-        testDataPath: path.resolve(import.meta.dirname, './test-data/dev.json'),
+        baseURL: 'http://localhost:8888',
+        testDataDir: 'dev'
       },
     },
     {
-      name: 'wiith-test-data-test',
+      name: 'with-test-data-test',
       testMatch: '**/with-test-data.spec.js',
       use: { 
         ...devices['Desktop Chrome'],
-        testDataPath: path.resolve(import.meta.dirname, './test-data/test.json'),
+        baseURL: 'http://localhost:8888',
+        testDataDir: 'test'
       },
     },
     {

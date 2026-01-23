@@ -7,24 +7,11 @@ import path from 'path';
  * The fixture loads JSON data from a file path specified in the project config
  */
 export const test = base.extend({
-  testData: async ({ }, use, testInfo) => {
-    // Get the test data path from the project config
-    const testDataPath = testInfo.project.use?.testDataPath;
-    
-    if (!testDataPath) {
-      throw new Error('testDataPath is not defined in the project configuration');
-    }
-
-    // Resolve the path relative to the project root
-    const fullPath = path.resolve(testDataPath);
-    
-    // Read and parse the JSON file
-    const fileContent = fs.readFileSync(fullPath, 'utf-8');
-    const data = JSON.parse(fileContent);
-    
-    // Make the data available to the test
-    await use(data);
+  testDataDir: ['dev', { option: true }],
+  
+  testData: async ({ testDataDir }, use) => {
+    const dataPath = path.join('./data', testDataDir, 'data.json');
+    const testData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    await use(testData);
   },
 });
-
-export { expect } from '@playwright/test';

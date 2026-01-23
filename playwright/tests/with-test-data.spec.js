@@ -1,4 +1,4 @@
-import { test, expect } from '../fixtures/testData.js';
+import { test } from '../fixtures/testData.js';
 
 test.describe('Product Search', () => {
   test('should search for product and verify it is displayed', async ({ page, testData }) => {
@@ -6,11 +6,11 @@ test.describe('Product Search', () => {
     await page.goto('/search.html');
     
     // Verify the search page is loaded
-    await expect(page.locator('h1')).toContainText('Product Search');
+    await test.expect(page.locator('h1')).toContainText('Product Search');
     
     // Get the search box
     const searchBox = page.locator('#searchBox');
-    await expect(searchBox).toBeVisible();
+    await test.expect(searchBox).toBeVisible();
     
     // Enter the search term from test data
     await searchBox.fill(testData.searchTerm);
@@ -21,17 +21,17 @@ test.describe('Product Search', () => {
     // Verify that expected products are displayed
     for (const productName of testData.expectedProducts) {
       const productCard = page.locator('.product-card').filter({ hasText: productName });
-      await expect(productCard).toBeVisible();
+      await test.expect(productCard).toBeVisible();
       
       // Verify the product name is displayed correctly
       const productNameElement = productCard.locator('.product-name');
-      await expect(productNameElement).toContainText(productName);
+      await test.expect(productNameElement).toContainText(productName);
     }
     
     // Verify the results count is shown
     const resultsCount = page.locator('#resultsCount');
-    await expect(resultsCount).toBeVisible();
-    await expect(resultsCount).toContainText(`Found ${testData.expectedProducts.length} product`);
+    await test.expect(resultsCount).toBeVisible();
+    await test.expect(resultsCount).toContainText(`Found ${testData.expectedProducts.length} product`);
   });
 
   test('should show no results for non-existent product', async ({ page, testData }) => {
@@ -47,8 +47,8 @@ test.describe('Product Search', () => {
     
     // Verify no results message is displayed
     const noResults = page.locator('.no-results');
-    await expect(noResults).toBeVisible();
-    await expect(noResults).toContainText('No products found');
+    await test.expect(noResults).toBeVisible();
+    await test.expect(noResults).toContainText('No products found');
   });
 
   test('should display all products when search is empty', async ({ page }) => {
@@ -57,10 +57,10 @@ test.describe('Product Search', () => {
     
     // Verify all 12 products are displayed initially
     const productCards = page.locator('.product-card');
-    await expect(productCards).toHaveCount(12);
+    await test.expect(productCards).toHaveCount(12);
     
     // Verify results count shows all products
     const resultsCount = page.locator('#resultsCount');
-    await expect(resultsCount).toContainText('Found 12 products');
+    await test.expect(resultsCount).toContainText('Found 12 products');
   });
 });
