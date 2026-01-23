@@ -2,6 +2,7 @@
   "name": "test-automation-examples-web",
   "version": "1.0.0",
   "description": "Web application for test automation examples",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

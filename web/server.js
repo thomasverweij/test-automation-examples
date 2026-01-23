@@ -1,7 +1,12 @@
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
-const speakeasy = require('speakeasy');
+import express from 'express';
+import session from 'express-session';
+import path from 'path';
+import speakeasy from 'speakeasy';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8888;
