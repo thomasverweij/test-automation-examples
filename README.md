@@ -8,9 +8,6 @@ Repository containing test automation code examples.
 - playwright mock api response
 - playwright test steps
 - robot framework browser locators
-- robot framework browser page object model
-- robot framework environment config
-- robot framework browser resuable storage state
 - robot framework browser promises
 - robot framework api testing
 - robot framework parallel testing
@@ -29,3 +26,6 @@ Repository containing test automation code examples.
 - playwright secret handling
 - k6 open model
 - k6 closed model
+- robot framework browser page object model
+- robot framework environment config
+- robot framework browser resuable storage state
