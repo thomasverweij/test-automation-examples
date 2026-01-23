@@ -22,7 +22,7 @@ async function globalSetup() {
   await page.waitForURL('/');
   
   // Save storage state
-  await context.storageState({ path: 'playwright/.auth/user.json' });
+  await context.storageState({ path: '.auth/user.json' });
   
   await browser.close();
 }

@@ -41,7 +41,7 @@ export default defineConfig({
       name: 'chromium-logged-in',
       use: { 
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: '.auth/user.json',
       },
     }
   ]
