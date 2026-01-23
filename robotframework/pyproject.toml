@@ -3,6 +3,7 @@ name = "robotframework-examples"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "pyotp>=2.9.0",
     "robotframework>=7.4.1",
     "robotframework-browser-batteries>=19.12.3",
 ]

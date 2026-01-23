@@ -1,7 +1,7 @@
 # robotframework examples
 
 ## install
-`uv sync`
+`uv sync && uv run rfbrowser install`
 
 ## run example
-`uv run robot --outputdir results example.robot`
+`TEST_ENV=test uv run robot --outputdir results tests/with-test-data.robot`

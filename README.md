@@ -3,7 +3,6 @@ Repository containing test automation code examples.
 
 # todo
 - playwright locators
-- playwright parametrized fixture for testdata management
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
@@ -26,7 +25,7 @@ Repository containing test automation code examples.
 - playwright page object model
 - playwright reusable storage state
 - playwright 2fa login
-- playwright fixture
+- playwright fixture 
 - playwright secret handling
 - k6 open model
 - k6 closed model
