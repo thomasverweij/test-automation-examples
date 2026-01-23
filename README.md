@@ -16,6 +16,7 @@ Repository containing test automation code examples.
 - jenkins pipeline
 - grafana performance testing dashboard
 - allure dashboard
+- docker containers
 
 # done
 - grafana functional testing dashboard
