@@ -106,6 +106,24 @@ wheels = [
 ]
 
 [[package]]
+name = "platformdirs"
+version = "4.5.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/86/0248f086a84f01b37aaec0fa567b397df1a119f73c16f6c7a9aac73ea309/platformdirs-4.5.1.tar.gz", hash = "sha256:61d5cdcc6065745cdd94f0f878977f8de9437be93de97c1c12f853c9c0cdcbda", size = 21715, upload-time = "2025-12-05T13:52:58.638Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cb/28/3bfe2fa5a7b9c46fe7e13c97bda14c895fb10fa2ebf1d0abb90e0cea7ee1/platformdirs-4.5.1-py3-none-any.whl", hash = "sha256:d03afa3963c806a9bed9d5125c8f4cb2fdaf74a55ab60e5d59b3fde758104d31", size = 18731, upload-time = "2025-12-05T13:52:56.823Z" },
+]
+
+[[package]]
+name = "pluggy"
+version = "1.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
+]
+
+[[package]]
 name = "protobuf"
 version = "6.33.2"
 source = { registry = "https://pypi.org/simple" }
@@ -194,6 +212,94 @@ wheels = [
 ]
 
 [[package]]
+name = "robotcode"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "robotcode-core" },
+    { name = "robotcode-plugin" },
+    { name = "robotcode-robot" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/49/81/61f8e42e00c912c32f148bdf39b23d208f2c83d73d23834e7c7c82119910/robotcode-2.2.0.tar.gz", hash = "sha256:69cc824e32321dbe3a247def91342eda8b7b6484d251f507ed4d03d2073d5f6a", size = 79686, upload-time = "2026-01-02T01:39:51.136Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a3/02/fb118f1680f24f90a1afb4dc9bbd29dddb9399c2b0d5172ad8df74fba936/robotcode-2.2.0-py3-none-any.whl", hash = "sha256:cacc05343592b73809b83d49e1089d516c462e4fb39932b4fb94a238985afea9", size = 18170, upload-time = "2026-01-02T01:39:54.831Z" },
+]
+
+[package.optional-dependencies]
+runner = [
+    { name = "robotcode-runner" },
+]
+
+[[package]]
+name = "robotcode-core"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0e/37/61bcae8d14ffdcb963b2fd60023dd8080b840eb50104f13320a5cbc71106/robotcode_core-2.2.0.tar.gz", hash = "sha256:2048786979f86d4b9485859f6afc6d659dab5c7e37d436f92defb6179eb69c2a", size = 73219, upload-time = "2026-01-02T01:40:06.172Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b1/f6/cc7576ef8efed30c6f4a83de2c2cb2a876b1897f6c81c9036b6230faf169/robotcode_core-2.2.0-py3-none-any.whl", hash = "sha256:9ee799b6e7a9c025112b393b03ac47c1deb385a6413842dbdb3aa52be6e9b60e", size = 80260, upload-time = "2026-01-02T01:40:00.692Z" },
+]
+
+[[package]]
+name = "robotcode-modifiers"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "robotframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bf/53/a1c093c0a303d1a1dd4c752c77a4ae8e93c7b4007dc594b5aa292fc12a9b/robotcode_modifiers-2.2.0.tar.gz", hash = "sha256:750887791f03a93f9d9851f61fb8820e8eb0aad8339aee5d899971fff6e8b9aa", size = 4658, upload-time = "2026-01-02T01:39:55.521Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/a0/d39e4db4f90b1ba4badc5e6d29fcefd312293622c248fb76bbc9cfbe1a34/robotcode_modifiers-2.2.0-py3-none-any.whl", hash = "sha256:e2fbba4a8cd45b3d9f1255962e883f06c2a0531faf602117b15d1ff3c297d495", size = 3183, upload-time = "2026-01-02T01:40:02.691Z" },
+]
+
+[[package]]
+name = "robotcode-plugin"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "click" },
+    { name = "colorama" },
+    { name = "pluggy" },
+    { name = "tomli-w" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/da/5f/354259170e64ef3b2526c7789f023099357d73b01b261bf5db62e40f8bd3/robotcode_plugin-2.2.0.tar.gz", hash = "sha256:ec1e2806077ec41fd4ee6bbd5edba236770c37a36858897ae8ea8685c684ac73", size = 10209, upload-time = "2026-01-02T01:39:47.297Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1f/02/6237c375f1c145ce53f3c5e6b48dd0ba5e7682a50a036df13a3218110b61/robotcode_plugin-2.2.0-py3-none-any.whl", hash = "sha256:1bf5a8c9f7d64b8ab441a0a9fde74a8d2128f080511fd5acc89482f15fa52ffb", size = 10143, upload-time = "2026-01-02T01:39:48.301Z" },
+]
+
+[[package]]
+name = "robotcode-robot"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "platformdirs" },
+    { name = "robotcode-core" },
+    { name = "robotframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/88/6e/bde75e4bf985f7575fd6aa47e421bc98b79ad5ea5653e2af2ac17cf9be18/robotcode_robot-2.2.0.tar.gz", hash = "sha256:2ddcef526a501f5fac459a2a450dd1a5eb4c6298c21805da8810a838e5739c26", size = 94492, upload-time = "2026-01-02T01:39:56.573Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/14/77/cce0c4b79cff5700425012a68a50402ae2ae4b772fbc79d5a7a114e5af25/robotcode_robot-2.2.0-py3-none-any.whl", hash = "sha256:48042824df22dd24ae5336e1bc686d7ebfbf1f3fd53592a0565e16a39150ea08", size = 103474, upload-time = "2026-01-02T01:39:46.035Z" },
+]
+
+[[package]]
+name = "robotcode-runner"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "robotcode" },
+    { name = "robotcode-modifiers" },
+    { name = "robotcode-plugin" },
+    { name = "robotcode-robot" },
+    { name = "robotframework" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/cd/a3/d4186ebec91a3a083a6106a0616cb391d8b7ef39e6ec1a2398873067dfa1/robotcode_runner-2.2.0.tar.gz", hash = "sha256:3a9a584a2563b95fe66bae332653f7652a5e46c851de043fde8d35a16bade43f", size = 14333, upload-time = "2026-01-02T01:39:52.26Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/08/47/daf1273e099acdfca351fc3a0042cfb2e9be65571951d649fbff93edb638/robotcode_runner-2.2.0-py3-none-any.whl", hash = "sha256:0796224dbc12f4cee0ebc6faf27870321a4e372a9b437ed0927a53f9f87f84e2", size = 18327, upload-time = "2026-01-02T01:39:54.165Z" },
+]
+
+[[package]]
 name = "robotframework"
 version = "7.4.1"
 source = { registry = "https://pypi.org/simple" }
@@ -258,6 +364,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "pyotp" },
+    { name = "robotcode", extra = ["runner"] },
     { name = "robotframework" },
     { name = "robotframework-browser-batteries" },
 ]
@@ -265,6 +372,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "pyotp", specifier = ">=2.9.0" },
+    { name = "robotcode", extras = ["runner"], specifier = ">=2.2.0" },
     { name = "robotframework", specifier = ">=7.4.1" },
     { name = "robotframework-browser-batteries", specifier = ">=19.12.3" },
 ]
@@ -297,6 +405,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/86/ff/f75651350db3cf2ef767371307eb163f3cc1ac03e16fdf3ac347607f7edb/setuptools-80.10.1.tar.gz", hash = "sha256:bf2e513eb8144c3298a3bd28ab1a5edb739131ec5c22e045ff93cd7f5319703a", size = 1229650, upload-time = "2026-01-21T09:42:03.061Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e0/76/f963c61683a39084aa575f98089253e1e852a4417cb8a3a8a422923a5246/setuptools-80.10.1-py3-none-any.whl", hash = "sha256:fc30c51cbcb8199a219c12cc9c281b5925a4978d212f84229c909636d9f6984e", size = 1099859, upload-time = "2026-01-21T09:42:00.688Z" },
+]
+
+[[package]]
+name = "tomli-w"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/19/75/241269d1da26b624c0d5e110e8149093c759b7a286138f4efd61a60e75fe/tomli_w-1.2.0.tar.gz", hash = "sha256:2dd14fac5a47c27be9cd4c976af5a12d87fb1f0b4512f81d69cce3b35ae25021", size = 7184, upload-time = "2025-01-15T12:07:24.262Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c7/18/c86eb8e0202e32dd3df50d43d7ff9854f8e0603945ff398974c1d91ac1ef/tomli_w-1.2.0-py3-none-any.whl", hash = "sha256:188306098d013b691fcadc011abd66727d3c414c571bb01b1a174ba8c983cf90", size = 6675, upload-time = "2025-01-15T12:07:22.074Z" },
 ]
 
 [[package]]
