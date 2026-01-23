@@ -4,4 +4,4 @@
 `npm init`
 
 ## run example
-`npx playwright test tests/example.spec.js`
+`npx playwright test logged-in`
