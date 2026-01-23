@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -6,7 +5,8 @@ import { defineConfig, devices } from '@playwright/test';
  * https://github.com/motdotla/dotenv
  */
 // import dotenv from 'dotenv';
-// import path from 'path';
+import path from 'path';
+
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
@@ -38,10 +38,27 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium-logged-in',
+      name: 'logged-in',
+      testMatch: '**/logged-in.spec.js',
       use: { 
         ...devices['Desktop Chrome'],
         storageState: '.auth/user.json',
+      },
+    },
+    {
+      name: 'with-test-data-dev',
+      testMatch: '**/with-test-data.spec.js',
+      use: { 
+        ...devices['Desktop Chrome'],
+        testDataPath: path.resolve(import.meta.dirname, './test-data/dev.json'),
+      },
+    },
+    {
+      name: 'wiith-test-data-test',
+      testMatch: '**/with-test-data.spec.js',
+      use: { 
+        ...devices['Desktop Chrome'],
+        testDataPath: path.resolve(import.meta.dirname, './test-data/test.json'),
       },
     }
   ]

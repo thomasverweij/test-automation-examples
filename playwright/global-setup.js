@@ -1,4 +1,3 @@
-// @ts-check
 import { chromium } from 'playwright';
 
 async function globalSetup() {

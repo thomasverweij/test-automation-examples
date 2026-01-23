@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search - Test Automation Examples</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-light">
+    <div class="container dashboard">
+        <header class="header">
+            <h1>🔍 Product Search</h1>
+            <a href="/" class="primary-link">← Back to Home</a>
+        </header>
+
+        <div class="section">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchBox" 
+                    class="search-box" 
+                    placeholder="Search for products..."
+                    aria-label="Product search"
+                >
+            </div>
+
+            <div id="resultsCount" class="results-count"></div>
+            <div id="resultsContainer" class="results-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Dummy product data
+        const products = [
+            {
+                id: 1,
+                name: "Wireless Bluetooth Headphones",
+                category: "Electronics",
+                description: "High-quality wireless headphones with noise cancellation and 30-hour battery life.",
+                price: 79.99
+            },
+            {
+                id: 2,
+                name: "Ergonomic Office Chair",
+                category: "Furniture",
+                description: "Comfortable office chair with lumbar support and adjustable height.",
+                price: 249.99
+            },
+            {
+                id: 3,
+                name: "Stainless Steel Water Bottle",
+                category: "Home & Kitchen",
+                description: "Insulated water bottle that keeps drinks cold for 24 hours or hot for 12 hours.",
+                price: 24.99
+            },
+            {
+                id: 4,
+                name: "Mechanical Gaming Keyboard",
+                category: "Electronics",
+                description: "RGB backlit mechanical keyboard with customizable keys and macro support.",
+                price: 129.99
+            },
+            {
+                id: 5,
+                name: "Yoga Mat with Carrying Strap",
+                category: "Sports & Fitness",
+                description: "Non-slip yoga mat made from eco-friendly materials, 6mm thick.",
+                price: 34.99
+            },
+            {
+                id: 6,
+                name: "Smart Watch with Heart Rate Monitor",
+                category: "Electronics",
+                description: "Fitness tracker with GPS, sleep tracking, and smartphone notifications.",
+                price: 199.99
+            },
+            {
+                id: 7,
+                name: "Coffee Maker with Timer",
+                category: "Home & Kitchen",
+                description: "Programmable coffee maker with 12-cup capacity and auto shut-off.",
+                price: 59.99
+            },
+            {
+                id: 8,
+                name: "Running Shoes",
+                category: "Sports & Fitness",
+                description: "Lightweight running shoes with breathable mesh and cushioned sole.",
+                price: 89.99
+            },
+            {
+                id: 9,
+                name: "Laptop Stand",
+                category: "Office Supplies",
+                description: "Adjustable aluminum laptop stand for improved ergonomics and airflow.",
+                price: 39.99
+            },
+            {
+                id: 10,
+                name: "Portable Phone Charger",
+                category: "Electronics",
+                description: "10000mAh power bank with dual USB ports and fast charging support.",
+                price: 29.99
+            },
+            {
+                id: 11,
+                name: "Indoor Plant - Snake Plant",
+                category: "Home & Garden",
+                description: "Low-maintenance air-purifying plant perfect for beginners.",
+                price: 19.99
+            },
+            {
+                id: 12,
+                name: "Bluetooth Speaker",
+                category: "Electronics",
+                description: "Waterproof portable speaker with 360° sound and 12-hour battery.",
+                price: 49.99
+            }
+        ];
+
+        const searchBox = document.getElementById('searchBox');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsCount = document.getElementById('resultsCount');
+
+        // Function to render products
+        function renderProducts(filteredProducts) {
+            if (filteredProducts.length === 0) {
+                resultsCount.textContent = '';
+                resultsContainer.innerHTML = '<div class="no-results">No products found. Try a different search term.</div>';
+                return;
+            }
+
+            resultsCount.textContent = `Found ${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''}`;
+            
+            resultsContainer.innerHTML = filteredProducts.map(product => `
+                <div class="product-card" data-product-id="${product.id}">
+                    <div class="product-name">${product.name}</div>
+                    <span class="product-category">${product.category}</span>
+                    <div class="product-description">${product.description}</div>
+                    <div class="product-price">$${product.price.toFixed(2)}</div>
+                </div>
+            `).join('');
+        }
+
+        // Function to filter products
+        function filterProducts(searchTerm) {
+            if (!searchTerm.trim()) {
+                return products; // Return all products if search is empty
+            }
+
+            const term = searchTerm.toLowerCase();
+            return products.filter(product => 
+                product.name.toLowerCase().includes(term) ||
+                product.category.toLowerCase().includes(term) ||
+                product.description.toLowerCase().includes(term)
+            );
+        }
+
+        // Search event listener
+        searchBox.addEventListener('input', (e) => {
+            const searchTerm = e.target.value;
+            const filtered = filterProducts(searchTerm);
+            renderProducts(filtered);
+        });
+
+        // Initial render with all products
+        renderProducts(products);
+    </script>
+</body>
+</html>
