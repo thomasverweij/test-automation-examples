@@ -28,9 +28,6 @@ export default defineConfig({
   globalSetup: './global-setup.js',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'http://localhost:8888',
-
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
@@ -42,6 +39,7 @@ export default defineConfig({
       testMatch: '**/logged-in.spec.js',
       use: { 
         ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:8888',
         storageState: '.auth/user.json',
       },
     },
@@ -68,6 +66,15 @@ export default defineConfig({
       testMatch: '**/2fa-login.spec.js',
       use: { 
         ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:8888',
+      },
+    },
+    {
+      name: 'locators',
+      testMatch: '**/locators.spec.js',
+      use: { 
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:8888',
       },
     }
   ]
