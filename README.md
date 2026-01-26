@@ -2,12 +2,10 @@
 Repository containing test automation code examples.
 
 # todo
-- playwright locators
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
 - playwright test steps
-- robot framework browser locators
 - robot framework browser promises
 - robot framework api testing
 - robot framework parallel testing
@@ -30,3 +28,5 @@ Repository containing test automation code examples.
 - robot framework browser page object model
 - robot framework environment config
 - robot framework browser resuable storage state
+- playwright locators
+- robot framework browser locators
