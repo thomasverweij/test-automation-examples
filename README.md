@@ -3,6 +3,7 @@ Repository containing test automation code examples.
 
 # todo
 - npm + uv conf at root
+- centralize readme
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
@@ -32,3 +33,24 @@ Repository containing test automation code examples.
 - robot framework browser locators
 - allure dashboard
 
+# requirements
+```
+brew install k6 uv nvm
+```
+
+# install
+```
+uv sync
+npm install
+```
+
+# web
+```
+npm run dev
+```
+
+# playwright
+```
+cd playwright
+npx playwright test -c playwright/playwright.config.js --project locators
+``

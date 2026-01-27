@@ -5,3 +5,9 @@ playwright-report/
 test-results/
 k6-test-report.html
 .auth/
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

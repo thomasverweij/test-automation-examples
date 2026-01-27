@@ -1,10 +1,12 @@
 [project]
-name = "robotframework-examples"
+name = "test-automation-examples"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "allure-robotframework>=2.15.3",
+    "psycopg2-binary>=2.9.11",
     "pyotp>=2.9.0",
-    "robotcode[runner]>=2.2.0",
+    "robotcode-runner>=2.2.0",
     "robotframework>=7.4.1",
     "robotframework-browser-batteries>=19.12.3",
 ]
