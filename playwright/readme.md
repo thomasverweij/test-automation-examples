@@ -4,4 +4,4 @@
 `npm init`
 
 ## run example
-`npx playwright test logged-in`
+`npx playwright test --project <project>`
