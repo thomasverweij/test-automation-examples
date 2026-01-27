@@ -2,6 +2,7 @@
 Repository containing test automation code examples.
 
 # todo
+- refactor junit db parser
 - npm + uv conf at root
 - centralize readme
 - playwright api testing

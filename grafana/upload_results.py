@@ -191,7 +191,7 @@ def upload_to_database(run_id, data):
         cursor.close()
         conn.close()
         
-        print(f"✓ Successfully uploaded test results to database")
+        print("✓ Successfully uploaded test results to database")
         print(f"  Run ID: {run_id}")
         print(f"  Total Tests: {summary['total_tests']}")
         print(f"  Passed: {summary['passed']}")
