@@ -2,6 +2,7 @@
 Repository containing test automation code examples.
 
 # todo
+- npm + uv conf at root
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
@@ -13,7 +14,6 @@ Repository containing test automation code examples.
 - github pipeline
 - jenkins pipeline
 - grafana performance testing dashboard
-- allure dashboard
 - docker containers
 
 # done
@@ -30,3 +30,5 @@ Repository containing test automation code examples.
 - robot framework browser resuable storage state
 - playwright locators
 - robot framework browser locators
+- allure dashboard
+
