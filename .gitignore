@@ -1,7 +1,6 @@
 .venv/
 results/
 node_modules/
-playwright-report/
 test-results/
 k6-test-report.html
 .auth/
