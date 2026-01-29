@@ -7,10 +7,15 @@
     "test:headed": "playwright test --headed",
     "report": "playwright show-report"
   },
-  "keywords": ["playwright", "testing", "github-actions"],
+  "keywords": [
+    "playwright",
+    "testing",
+    "github-actions"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.40.0"
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^25.1.0"
   }
 }

@@ -1,7 +1,7 @@
 name: Playwright Tests with GitHub Pages
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -67,15 +67,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Generate Job Summary
-        if: always()
-        run: |
-          echo "# 🎭 Playwright Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## 🔗 Report URL" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📄 **[View HTML Report](${{ steps.deployment.outputs.page_url }})**" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "_Report generated on $(date) | Run ID: ${{ github.run_id }}_" >> $GITHUB_STEP_SUMMARY
