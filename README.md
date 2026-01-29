@@ -11,7 +11,6 @@ Repository containing test automation code examples.
 - robot framework api testing
 - robot framework parallel testing
 - robot framework secret handling
-- github pipeline
 - github pipeline with docker
 - jenkins pipeline
 - grafana performance testing dashboard
@@ -34,6 +33,7 @@ Repository containing test automation code examples.
 - npm + uv conf at root
 - centralize readme
 - refactor junit db parser
+- github pipeline playwright
 
 # Requirements 
 
