@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Playwright Browsers
         working-directory: github-actions
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: Run Playwright tests
         working-directory: github-actions
