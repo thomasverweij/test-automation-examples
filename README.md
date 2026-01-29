@@ -2,8 +2,6 @@
 Repository containing test automation code examples.
 
 ## Todo
-- centralize readme
-- refactor junit db parser
 - playwright browser upload
 - playwright api testing
 - playwright a11y testing
@@ -14,9 +12,9 @@ Repository containing test automation code examples.
 - robot framework parallel testing
 - robot framework secret handling
 - github pipeline
+- github pipeline with docker
 - jenkins pipeline
 - grafana performance testing dashboard
-- docker containers
 
 ## Done
 - grafana functional testing dashboard
@@ -34,6 +32,8 @@ Repository containing test automation code examples.
 - robot framework browser locators
 - allure dashboard
 - npm + uv conf at root
+- centralize readme
+- refactor junit db parser
 
 # Requirements 
 
@@ -90,7 +90,7 @@ open ./allure/report/index.html
 ```
 
 ## Grafana
-Custom reporting stack for robot framework with grafana, postgresql and nginx.
+Custom reporting stack for robot framework with docker, grafana, postgresql and nginx
 ```
 cd grafana
 docker compose up -d
