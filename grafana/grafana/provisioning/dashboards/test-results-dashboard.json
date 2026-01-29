@@ -77,7 +77,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as \"Total Test Runs\" FROM test_runs",
+          "rawSql": "SELECT COUNT(*) as \"Total Test Runs\" FROM test_runs WHERE $__timeFilter(start_time)",
           "refId": "A",
           "select": [
             [
@@ -157,7 +157,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT SUM(total_tests) as \"Total Tests\" FROM test_runs",
+          "rawSql": "SELECT SUM(total_tests) as \"Total Tests\" FROM test_runs WHERE $__timeFilter(start_time)",
           "refId": "A",
           "select": [
             [
@@ -241,7 +241,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT SUM(failed) as \"Failed Tests\" FROM test_runs",
+          "rawSql": "SELECT SUM(failed) as \"Failed Tests\" FROM test_runs WHERE $__timeFilter(start_time)",
           "refId": "A",
           "select": [
             [
@@ -353,7 +353,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  start_time as time,\n  ROUND((passed::numeric / NULLIF(total_tests, 0)) * 100, 2) as \"Pass Rate\"\nFROM test_runs\nWHERE total_tests > 0\nORDER BY start_time",
+          "rawSql": "SELECT \n  start_time as time,\n  ROUND((passed::numeric / NULLIF(total_tests, 0)) * 100, 2) as \"Pass Rate\"\nFROM test_runs\nWHERE total_tests > 0 AND $__timeFilter(start_time)\nORDER BY start_time",
           "refId": "A",
           "select": [
             [
@@ -505,7 +505,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  run_id as \"Run ID\",\n  start_time as \"Start Time\",\n  total_tests as \"Total\",\n  passed as \"Passed\",\n  failed as \"Failed\",\n  skipped as \"Skipped\",\n  ROUND((passed::numeric / NULLIF(total_tests, 0)) * 100, 2) as \"Pass Rate %\",\n  ROUND(duration_ms / 1000.0, 2) as \"Duration (s)\",\n  status as \"Status\"\nFROM test_runs\nORDER BY start_time DESC\nLIMIT 20",
+          "rawSql": "SELECT \n  run_id as \"Run ID\",\n  start_time as \"Start Time\",\n  total_tests as \"Total\",\n  passed as \"Passed\",\n  failed as \"Failed\",\n  skipped as \"Skipped\",\n  ROUND((passed::numeric / NULLIF(total_tests, 0)) * 100, 2) as \"Pass Rate %\",\n  ROUND(duration_ms / 1000.0, 2) as \"Duration (s)\",\n  status as \"Status\"\nFROM test_runs\nWHERE $__timeFilter(start_time)\nORDER BY start_time DESC\nLIMIT 20",
           "refId": "A",
           "select": [
             [
@@ -549,7 +549,38 @@
           },
           "mappings": []
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "passed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
@@ -560,6 +591,7 @@
       "id": 6,
       "options": {
         "displayLabels": [
+          "name",
           "percent"
         ],
         "legend": {
@@ -570,7 +602,7 @@
         },
         "pieType": "pie",
         "reduceOptions": {
-          "values": false,
+          "values": true,
           "calcs": [
             "lastNotNull"
           ],
@@ -591,7 +623,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  status,\n  COUNT(*) as value\nFROM test_results\nGROUP BY status",
+          "rawSql": "SELECT \n  status,\n  COUNT(*) as value\nFROM test_results\nWHERE $__timeFilter(start_time)\nGROUP BY status",
           "refId": "A",
           "select": [
             [
@@ -698,7 +730,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  test_suite as \"Test Suite\",\n  AVG(duration_ms) as \"Average Duration\"\nFROM test_results\nGROUP BY test_suite\nORDER BY \"Average Duration\" DESC\nLIMIT 10",
+          "rawSql": "SELECT \n  test_suite as \"Test Suite\",\n  AVG(duration_ms) as \"Average Duration\"\nFROM test_results\nWHERE $__timeFilter(start_time)\nGROUP BY test_suite\nORDER BY \"Average Duration\" DESC\nLIMIT 10",
           "refId": "A",
           "select": [
             [
@@ -831,7 +863,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  tr.run_id as \"Run ID\",\n  tres.test_name as \"Test Name\",\n  tres.test_suite as \"Test Suite\",\n  tres.status as \"Status\",\n  ROUND(tres.duration_ms / 1000.0, 2) as \"Duration (s)\",\n  tres.message as \"Message\",\n  tres.start_time as \"Start Time\"\nFROM test_results tres\nJOIN test_runs tr ON tres.run_id = tr.run_id\nORDER BY tres.start_time DESC\nLIMIT 50",
+          "rawSql": "SELECT \n  tr.run_id as \"Run ID\",\n  tres.test_name as \"Test Name\",\n  tres.test_suite as \"Test Suite\",\n  tres.status as \"Status\",\n  ROUND(tres.duration_ms / 1000.0, 2) as \"Duration (s)\",\n  tres.message as \"Message\",\n  tres.start_time as \"Start Time\"\nFROM test_results tres\nJOIN test_runs tr ON tres.run_id = tr.run_id\nWHERE $__timeFilter(tres.start_time)\nORDER BY tres.start_time DESC\nLIMIT 50",
           "refId": "A",
           "select": [
             [
@@ -872,7 +904,7 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "",
+  "timezone": "browser",
   "title": "Robot Framework Test Results Dashboard",
   "uid": "robot-test-results",
   "version": 1,

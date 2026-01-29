@@ -6,11 +6,12 @@ Usage: python upload_results.py <xunit_file>
 
 import sys
 import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import psycopg2
 from psycopg2.extras import execute_values
 import hashlib
 import os
+from zoneinfo import ZoneInfo
 
 # Database configuration
 DB_CONFIG = {
@@ -53,15 +54,36 @@ def parse_xunit_file(filepath):
         for testsuite in testsuites:
             suite_name = testsuite.get('name', 'Unknown Suite')
             
+            # Parse the testsuite timestamp (ISO 8601 format)
+            timestamp_str = testsuite.get('timestamp')
+            if timestamp_str:
+                try:
+                    # Parse ISO 8601 timestamp
+                    suite_start_time = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+                    # If no timezone info, assume local timezone and convert to UTC
+                    if suite_start_time.tzinfo is None:
+                        # Get local timezone
+                        local_tz = datetime.now().astimezone().tzinfo
+                        # Treat parsed time as local time, then convert to UTC
+                        suite_start_time = suite_start_time.replace(tzinfo=local_tz).astimezone(timezone.utc)
+                except (ValueError, AttributeError):
+                    suite_start_time = datetime.now(timezone.utc)
+            else:
+                suite_start_time = datetime.now(timezone.utc)
+            
+            # Track cumulative time for calculating individual test start times
+            cumulative_time = timedelta(0)
+            
             for testcase in testsuite.findall('testcase'):
                 test_name = testcase.get('name', 'Unknown Test')
                 duration_str = testcase.get('time', '0')
                 
                 try:
                     duration_seconds = float(duration_str)
-                    duration_ms = int(duration_seconds * 1000)
+                    # Keep precision - store as float to preserve sub-millisecond durations
+                    duration_ms = duration_seconds * 1000
                 except (ValueError, TypeError):
-                    duration_ms = 0
+                    duration_ms = 0.0
                 
                 total_duration_ms += duration_ms
                 total_tests += 1
@@ -92,9 +114,10 @@ def parse_xunit_file(filepath):
                     message = 'Test passed'
                     error_message = None
                 
-                # Use current timestamp for test times
-                test_start = datetime.now()
-                test_end = datetime.now()
+                # Calculate test start and end times based on suite timestamp and duration
+                test_start = suite_start_time + cumulative_time
+                test_end = test_start + timedelta(milliseconds=duration_ms)
+                cumulative_time += timedelta(milliseconds=duration_ms)
                 
                 if start_time is None:
                     start_time = test_start
@@ -128,8 +151,8 @@ def parse_xunit_file(filepath):
                 'skipped': skipped,
                 'duration_ms': total_duration_ms,
                 'status': run_status,
-                'start_time': start_time or datetime.now(),
-                'end_time': end_time or datetime.now()
+                'start_time': start_time or datetime.now(timezone.utc),
+                'end_time': end_time or datetime.now(timezone.utc)
             }
         }
     

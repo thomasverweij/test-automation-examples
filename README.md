@@ -81,8 +81,8 @@ K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=k6-test-report.html k6 run smoke-t
 ```
 cd grafana
 docker compose up -d
-uv run robot --xunit output.xml --outputdir results test_suite.robot
-uv run python upload_results.py results/output.xml
+uv run robot --xunit xunit.xml --outputdir results test_suite.robot
+uv run python upload_results.py results/xunit.xml
 ```
 
 ## Allure

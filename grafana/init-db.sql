@@ -3,15 +3,15 @@
 CREATE TABLE IF NOT EXISTS test_runs (
     id SERIAL PRIMARY KEY,
     run_id VARCHAR(255) UNIQUE NOT NULL,
-    start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP,
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ,
     total_tests INTEGER DEFAULT 0,
     passed INTEGER DEFAULT 0,
     failed INTEGER DEFAULT 0,
     skipped INTEGER DEFAULT 0,
-    duration_ms INTEGER DEFAULT 0,
+    duration_ms NUMERIC(10, 3) DEFAULT 0,
     status VARCHAR(50) DEFAULT 'running',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS test_results (
@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS test_results (
     test_suite VARCHAR(255),
     status VARCHAR(50) NOT NULL,
     message TEXT,
-    duration_ms INTEGER DEFAULT 0,
+    duration_ms NUMERIC(10, 3) DEFAULT 0,
     error_message TEXT,
-    start_time TIMESTAMP NOT NULL,
-    end_time TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    start_time TIMESTAMPTZ NOT NULL,
+    end_time TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (run_id) REFERENCES test_runs(run_id) ON DELETE CASCADE
 );
 
