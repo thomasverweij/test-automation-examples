@@ -4,11 +4,12 @@ Repository containing test automation code examples.
 ## Todo
 - centralize readme
 - refactor junit db parser
+- playwright browser upload
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
 - playwright test steps
-- robot framework browser promises
+- robot framework browser upload with promise
 - robot framework api testing
 - robot framework parallel testing
 - robot framework secret handling
