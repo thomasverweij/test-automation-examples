@@ -60,24 +60,37 @@ npm run dev
 ```
 
 ## Playwright
+Example e2e testing scenarios with playwright
 ```
 cd playwright
 npx playwright test playwright.config.js --project <project name>
 ```
 
 ## Robot Framework
+Example e2e testing scenarios with RF
 ```
 cd robotframework
 TEST_ENV=test uv run robotcode robot --outputdir results tests/with-test-data.robot
 ```
 
 ## K6
+Example performance testing scenarios
 ```
 cd k6
 K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=k6-test-report.html k6 run smoke-test.js
 ```
 
+## Allure
+Basic reporting stack with allure
+```
+cd allure
+uv run robot --listener allure_robotframework:results/allure --outputdir results tests/
+npx allure generate --history-limit 30 ./results/allure
+open ./allure/report/index.html
+```
+
 ## Grafana
+Custom reporting stack for robot framework with grafana, postgresql and nginx.
 ```
 cd grafana
 docker compose up -d
@@ -85,10 +98,3 @@ uv run robot --xunit xunit.xml --outputdir results test_suite.robot
 uv run python upload_results.py results/xunit.xml
 ```
 
-## Allure
-```
-cd allure
-uv run robot --listener allure_robotframework:results/allure --outputdir results tests/
-npx allure generate --history-limit 30 ./results/allure
-open ./allure/report/index.html
-```
