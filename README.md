@@ -98,3 +98,5 @@ uv run robot --xunit xunit.xml --outputdir results test_suite.robot
 uv run python upload_results.py results
 ```
 
+## github actions
+Basic playwright tests for running in a Github Actions workflow that published results to Github Pages
