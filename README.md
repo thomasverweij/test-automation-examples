@@ -1,9 +1,9 @@
 # test-automation-examples
 Repository containing test automation code examples.
 
-# todo
-- refactor junit db parser
+## Todo
 - centralize readme
+- refactor junit db parser
 - playwright api testing
 - playwright a11y testing
 - playwright mock api response
@@ -17,7 +17,7 @@ Repository containing test automation code examples.
 - grafana performance testing dashboard
 - docker containers
 
-# done
+## Done
 - grafana functional testing dashboard
 - playwright page object model
 - playwright reusable storage state
@@ -34,24 +34,60 @@ Repository containing test automation code examples.
 - allure dashboard
 - npm + uv conf at root
 
-# requirements
-```
-brew install k6 uv nvm
-```
+# Requirements 
 
-# install
+## macOS
+1. Install:
+    - [docker desktop](https://www.docker.com/)
+    - k6: `brew install k6`
+    - uv: `brew install uv`
+    - nvm: `brew install nvm`
+
+2. Run:
 ```
 uv sync
+uv run rfbrowser install
 npm install
+npx playwright install
 ```
 
-# web
+# Run examples
+
+## Web
 ```
 npm run dev
 ```
 
-# playwright
+## Playwright
 ```
 cd playwright
-npx playwright test -c playwright/playwright.config.js --project locators
-``
+npx playwright test playwright.config.js --project <project name>
+```
+
+## Robot Framework
+```
+cd robotframework
+TEST_ENV=test uv run robotcode robot --outputdir results tests/with-test-data.robot
+```
+
+## K6
+```
+cd k6
+K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=k6-test-report.html k6 run smoke-test.js
+```
+
+## Grafana
+```
+cd grafana
+docker compose up -d
+uv run robot --xunit output.xml --outputdir results test_suite.robot
+uv run python upload_results.py results/output.xml
+```
+
+## Allure
+```
+cd allure
+uv run robot --listener allure_robotframework:results/allure --outputdir results tests/
+npx allure generate --history-limit 30 ./results/allure
+open ./allure/report/index.html
+```
