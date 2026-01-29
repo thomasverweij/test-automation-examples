@@ -76,6 +76,14 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         baseURL: 'http://localhost:8888',
       },
+    },
+    {
+      name: 'auto-waiting',
+      testMatch: '**/auto-waiting.spec.js',
+      use: { 
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:8888',
+      },
     }
   ]
 });
