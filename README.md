@@ -3,7 +3,6 @@ Repository containing test automation code examples.
 
 # todo
 - refactor junit db parser
-- npm + uv conf at root
 - centralize readme
 - playwright api testing
 - playwright a11y testing
@@ -33,6 +32,7 @@ Repository containing test automation code examples.
 - playwright locators
 - robot framework browser locators
 - allure dashboard
+- npm + uv conf at root
 
 # requirements
 ```
