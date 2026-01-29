@@ -95,6 +95,6 @@ Custom reporting stack for robot framework with grafana, postgresql and nginx.
 cd grafana
 docker compose up -d
 uv run robot --xunit xunit.xml --outputdir results test_suite.robot
-uv run python upload_results.py results/xunit.xml
+uv run python upload_results.py results
 ```
 
