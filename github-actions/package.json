@@ -1,0 +1,16 @@
+{
+  "name": "playwright-github-actions-example",
+  "version": "1.0.0",
+  "description": "Example Playwright tests for GitHub Actions",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "keywords": ["playwright", "testing", "github-actions"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
