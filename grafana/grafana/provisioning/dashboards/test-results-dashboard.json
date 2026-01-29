@@ -466,6 +466,23 @@
                 "value": 0
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Report URL"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "title": "View Report",
+                    "url": "${__value.raw}"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -505,7 +522,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  run_id as \"Run ID\",\n  start_time as \"Start Time\",\n  total_tests as \"Total\",\n  passed as \"Passed\",\n  failed as \"Failed\",\n  skipped as \"Skipped\",\n  ROUND((passed::numeric / NULLIF(total_tests, 0)) * 100, 2) as \"Pass Rate %\",\n  ROUND(duration_ms / 1000.0, 2) as \"Duration (s)\",\n  status as \"Status\"\nFROM test_runs\nWHERE $__timeFilter(start_time)\nORDER BY start_time DESC\nLIMIT 20",
+          "rawSql": "SELECT \n  run_id as \"Run ID\",\n  start_time as \"Start Time\",\n  total_tests as \"Total\",\n  passed as \"Passed\",\n  failed as \"Failed\",\n  skipped as \"Skipped\",\n  ROUND((passed::numeric / NULLIF(total_tests, 0)) * 100, 2) as \"Pass Rate %\",\n  ROUND(duration_ms / 1000.0, 2) as \"Duration (s)\",\n  status as \"Status\",\n  report_url as \"Report URL\"\nFROM test_runs\nWHERE $__timeFilter(start_time)\nORDER BY start_time DESC\nLIMIT 20",
           "refId": "A",
           "select": [
             [

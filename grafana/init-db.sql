@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS test_runs (
     skipped INTEGER DEFAULT 0,
     duration_ms NUMERIC(10, 3) DEFAULT 0,
     status VARCHAR(50) DEFAULT 'running',
+    report_url VARCHAR(500),
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 

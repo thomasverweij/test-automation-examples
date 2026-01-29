@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script to parse Robot Framework xunit output and upload results to PostgreSQL
-Usage: python upload_results.py <xunit_file>
+Usage: python upload_results.py <results_directory>
 """
 
 import sys
@@ -11,6 +11,8 @@ import psycopg2
 from psycopg2.extras import execute_values
 import hashlib
 import os
+import shutil
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 # Database configuration
@@ -164,7 +166,7 @@ def parse_xunit_file(filepath):
         sys.exit(1)
 
 
-def upload_to_database(run_id, data):
+def upload_to_database(run_id, data, report_url=None):
     """Upload test results to PostgreSQL database"""
     try:
         conn = psycopg2.connect(**DB_CONFIG)
@@ -174,8 +176,8 @@ def upload_to_database(run_id, data):
         summary = data['summary']
         cursor.execute("""
             INSERT INTO test_runs 
-            (run_id, start_time, end_time, total_tests, passed, failed, skipped, duration_ms, status)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (run_id, start_time, end_time, total_tests, passed, failed, skipped, duration_ms, status, report_url)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
             run_id,
             summary['start_time'],
@@ -185,7 +187,8 @@ def upload_to_database(run_id, data):
             summary['failed'],
             summary['skipped'],
             summary['duration_ms'],
-            summary['status']
+            summary['status'],
+            report_url
         ))
         
         # Insert individual test results
@@ -229,25 +232,78 @@ def upload_to_database(run_id, data):
         return False
 
 
+def archive_html_reports(run_id, results_dir):
+    """Copy Robot Framework HTML reports to archive directory with timestamps"""
+    try:
+        # Define source and destination paths
+        script_dir = Path(__file__).parent
+        results_path = Path(results_dir)
+        archive_dir = script_dir / 'reports' / 'archive' / run_id
+        
+        # Create archive directory for this run
+        archive_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Files to archive
+        files_to_copy = ['log.html', 'report.html']
+        copied_files = []
+        
+        for filename in files_to_copy:
+            source = results_path / filename
+            if source.exists():
+                destination = archive_dir / filename
+                shutil.copy2(source, destination)
+                copied_files.append(filename)
+                print(f"  ✓ Archived {filename}")
+        
+        if copied_files:
+            print(f"✓ Archived reports to: reports/archive/{run_id}/")
+            return True
+        else:
+            print("⚠ No HTML reports found to archive")
+            return False
+            
+    except Exception as e:
+        print(f"Error archiving reports: {e}")
+        return False
+
+
 def main():
     """Main function"""
     if len(sys.argv) < 2:
-        print("Usage: python upload_results.py <xunit_file>")
-        print("Example: python upload_results.py output.xml")
+        print("Usage: python upload_results.py <results_directory>")
+        print("Example: python upload_results.py results")
         sys.exit(1)
     
-    xunit_file = sys.argv[1]
+    results_dir = Path(sys.argv[1])
+    
+    # Look for xunit.xml in the results directory
+    xunit_file = results_dir / 'xunit.xml'
+    
+    if not xunit_file.exists():
+        print(f"✗ Error: xunit.xml not found in {results_dir}")
+        print("Make sure to run robot with --xunit option:")
+        print("  uv run robot --xunit xunit.xml --outputdir results test_suite.robot")
+        sys.exit(1)
     
     print(f"Parsing xunit file: {xunit_file}")
-    data = parse_xunit_file(xunit_file)
+    data = parse_xunit_file(str(xunit_file))
     
     run_id = generate_run_id()
     print(f"Generated run ID: {run_id}")
     
-    success = upload_to_database(run_id, data)
+    # Generate report URL
+    report_url = f"http://localhost:8080/archive/{run_id}/report.html"
     
-    if success:
+    # Upload to database
+    db_success = upload_to_database(run_id, data, report_url)
+    
+    # Archive HTML reports
+    archive_success = archive_html_reports(run_id, results_dir)
+    
+    if db_success:
         print("\n✓ Results uploaded successfully!")
+        if archive_success:
+            print(f"✓ Reports available at: http://localhost:8080/archive/{run_id}/")
         sys.exit(0)
     else:
         print("\n✗ Failed to upload results")
