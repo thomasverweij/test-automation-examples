@@ -84,6 +84,13 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         baseURL: 'http://localhost:8888',
       },
+    },
+    {
+      name: 'github-actions',
+      testMatch: '**/github-actions.spec.js',
+      use: { 
+        ...devices['Desktop Chrome'],
+      },
     }
   ]
 });

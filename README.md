@@ -54,33 +54,34 @@ npx playwright install
 
 # Run examples
 
-## Web
+## web/
+Demo app with basic functionality to run test scripts on
 ```
 npm run dev
 ```
 
-## Playwright
+## playwright/
 Example e2e testing scenarios with playwright
 ```
 cd playwright
 npx playwright test playwright.config.js --project <project name>
 ```
 
-## Robot Framework
+## robotframework/
 Example e2e testing scenarios with RF
 ```
 cd robotframework
 TEST_ENV=test uv run robotcode robot --outputdir results tests/with-test-data.robot
 ```
 
-## K6
+## k6/
 Example performance testing scenarios
 ```
 cd k6
 K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=k6-test-report.html k6 run smoke-test.js
 ```
 
-## Allure
+## allure-robotframework/
 Basic reporting stack with allure
 ```
 cd allure
@@ -89,7 +90,7 @@ npx allure generate --history-limit 30 ./results/allure
 open ./allure/report/index.html
 ```
 
-## Grafana
+## grafana/
 Custom reporting stack for robot framework with docker, grafana, postgresql and nginx
 ```
 cd grafana
@@ -98,5 +99,8 @@ uv run robot --xunit xunit.xml --outputdir results test_suite.robot
 uv run python upload_results.py results
 ```
 
-## github actions
-Basic playwright tests for running in a Github Actions workflow that published results to Github Pages
+## .github/workflow
+Github Actions workflow that runs a basic playwright spec and publishes results to Github Pages
+```
+https://github.com/thomasverweij/test-automation-examples/actions/workflows/playwright-tests.yml
+```
