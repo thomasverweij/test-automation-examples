@@ -25,7 +25,6 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Global setup to perform login once */
-  globalSetup: './global-setup.js',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -34,57 +33,6 @@ export default defineConfig({
 
   /* Configure projects */
   projects: [
-    {
-      name: 'logged-in',
-      testMatch: '**/logged-in.spec.js',
-      use: { 
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8888',
-        storageState: '.auth/user.json',
-      },
-    },
-    {
-      name: 'with-test-data-dev',
-      testMatch: '**/with-test-data.spec.js',
-      use: { 
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8888',
-        testDataDir: 'dev'
-      },
-    },
-    {
-      name: 'with-test-data-test',
-      testMatch: '**/with-test-data.spec.js',
-      use: { 
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8888',
-        testDataDir: 'test'
-      },
-    },
-    {
-      name: '2fa-login',
-      testMatch: '**/2fa-login.spec.js',
-      use: { 
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8888',
-      },
-    },
-    {
-      name: 'locators',
-      testMatch: '**/locators.spec.js',
-      use: { 
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8888',
-      },
-    },
-    {
-      name: 'auto-waiting',
-      testMatch: '**/auto-waiting.spec.js',
-      use: { 
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:8888',
-      },
-    },
     {
       name: 'github-actions',
       testMatch: '**/github-actions.spec.js',

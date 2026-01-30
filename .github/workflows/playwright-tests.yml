@@ -34,7 +34,7 @@ jobs:
         run: npx playwright install --with-deps chrome-for-testing
 
       - name: Run Playwright tests
-        run: npx playwright test --config playwright/playwright.config.js --project github-actions
+        run: npx playwright test --config playwright/playwright.github-actions.config.js --project github-actions
         continue-on-error: true
 
       - name: Upload Playwright Report as Artifact
