@@ -60,6 +60,7 @@ export default defineConfig({
       TEST_USER1_PASSWORD: process.env.TEST_USER1_PASSWORD,
       TEST_USER2_USERNAME: process.env.TEST_USER2_USERNAME,
       TEST_USER2_PASSWORD: process.env.TEST_USER2_PASSWORD,
+      TEST_ENV: process.env.TEST_ENV || 'dev',
     }
   },
 });

@@ -15,8 +15,9 @@ Then('the search box should be visible', () => {
 });
 
 When('the user searches for products using test data', () => {
-  // Load test data from fixture
-  cy.fixture('dev/data.json').then((data) => {
+  // Load test data from fixture based on TEST_ENV (defaults to 'dev')
+  const testEnv = Cypress.env('TEST_ENV') || 'dev';
+  cy.fixture(`${testEnv}/data.json`).then((data) => {
     testData = data;
     cy.get('#searchBox').type(testData.searchTerm);
     cy.wait(500); // Wait for filtering to happen

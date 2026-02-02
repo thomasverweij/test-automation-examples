@@ -8,33 +8,53 @@ import { HomePage } from '../pages/HomePage';
 
 /**
  * Custom command to login with username and password
+ * Uses cy.session to cache the login state
  * @example cy.login('testuser', 'password123')
  */
 Cypress.Commands.add('login', (username, password) => {
-  const loginPage = new LoginPage();
-  cy.visit('/login');
-  loginPage.login(username, password);
+  cy.session([username, password], () => {
+    const loginPage = new LoginPage();
+    cy.visit('/login');
+    loginPage.login(username, password);
+    // Wait for login to complete
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
+  }, {
+    validate() {
+      // Verify the session is still valid
+      cy.visit('/');
+      cy.get('#authUserLabel').should('be.visible');
+    }
+  });
 });
 
 /**
  * Custom command to complete 2FA login flow
+ * Uses cy.session to cache the login state
  * @example cy.loginWith2FA('user1', 'pass1')
  */
 Cypress.Commands.add('loginWith2FA', (username, password) => {
-  const loginPage = new LoginPage();
-  const twoFAPage = new TwoFAPage();
-  
-  cy.visit('/login');
-  loginPage.login(username, password);
-  
-  cy.url().should('include', '/2fa');
-  
-  const secret = Cypress.env('TWO_FA_SECRET');
-  cy.task('generateTOTP', secret).then((twoFACode) => {
-    twoFAPage.verifyCode(twoFACode);
+  cy.session([username, password, '2fa'], () => {
+    const loginPage = new LoginPage();
+    const twoFAPage = new TwoFAPage();
+    
+    cy.visit('/login');
+    loginPage.login(username, password);
+    
+    cy.url().should('include', '/2fa');
+    
+    const secret = Cypress.env('TWO_FA_SECRET');
+    cy.task('generateTOTP', secret).then((twoFACode) => {
+      twoFAPage.verifyCode(twoFACode);
+    });
+    
+    cy.url().should('eq', Cypress.config().baseUrl + '/');
+  }, {
+    validate() {
+      // Verify the session is still valid
+      cy.visit('/');
+      cy.get('#authUserLabel').should('be.visible');
+    }
   });
-  
-  cy.url().should('eq', Cypress.config().baseUrl + '/');
 });
 
 /**

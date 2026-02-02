@@ -79,7 +79,7 @@ TEST_ENV=test uv run robotcode robot --outputdir results tests/with-test-data.ro
 ## cypress/
 Example e2e testsing scenarios with cypress and cucumber
 ```
-npx cypress run --config-file cypress/cypress.config.js
+TEST_ENV=test npx cypress run --spec cypress/e2e/<feature>.feature --config-file cypress/cypress.config.js
 ```
 
 ## pytest/
