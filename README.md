@@ -11,8 +11,6 @@ Repository containing test automation code examples.
 - robot framework api testing
 - robot framework parallel testing
 - robot framework secret handling
-- github pipeline with docker
-- jenkins pipeline
 - grafana performance testing dashboard
 
 ## Done
@@ -36,6 +34,7 @@ Repository containing test automation code examples.
 - github pipeline playwright
 - swagger docs + api spec
 - pytest api tests
+- jenkins + ado pipeline templates
 
 # Requirements 
 
