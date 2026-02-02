@@ -35,8 +35,8 @@ export default defineConfig({
   /* Configure projects */
   projects: [
     {
-      name: 'github-actions',
-      testMatch: '**/github-actions.spec.js',
+      name: 'pipeline',
+      testMatch: '**/pipeline.spec.js',
       use: { 
         ...devices['Desktop Chrome'],
       },
