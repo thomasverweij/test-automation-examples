@@ -35,6 +35,7 @@ Repository containing test automation code examples.
 - refactor junit db parser
 - github pipeline playwright
 - swagger docs + api spec
+- pytest api tests
 
 # Requirements 
 
