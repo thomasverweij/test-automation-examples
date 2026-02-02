@@ -10,3 +10,6 @@ k6-test-report.html
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Python
+__pycache__/

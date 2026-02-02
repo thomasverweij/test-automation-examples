@@ -34,6 +34,7 @@ Repository containing test automation code examples.
 - centralize readme
 - refactor junit db parser
 - github pipeline playwright
+- swagger docs + api spec
 
 # Requirements 
 
@@ -99,8 +100,15 @@ uv run robot --xunit xunit.xml --outputdir results test_suite.robot
 uv run python upload_results.py results
 ```
 
-## .github/workflow
+## .github/workflows/
 Github Actions workflow that runs a basic playwright spec and publishes results to Github Pages
 ```
 https://github.com/thomasverweij/test-automation-examples/actions/workflows/playwright-tests.yml
+```
+
+## pytest/
+API tests using pytest. Uses openapi-python-client to automatically generate API client from openapi spec file.
+```
+uv run openapi-python-client generate --path web/openapi.yaml --output-path pytest/client --meta none
+uv run pytest pytest/ -v
 ```
