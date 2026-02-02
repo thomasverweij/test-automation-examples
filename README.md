@@ -111,5 +111,5 @@ https://github.com/thomasverweij/test-automation-examples/actions/workflows/play
 API tests using pytest. Uses openapi-python-client to automatically generate API client from openapi spec file.
 ```
 uv run openapi-python-client generate --path web/openapi.yaml --output-path pytest/client --meta none
-uv run pytest pytest/ -v
+uv run pytest pytest/ -v --html=pytest/report.html --self-contained-html --junit-xml=pytest/junit.xml
 ```
