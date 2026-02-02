@@ -1,16 +1,16 @@
 {
   "stepDefinitions": [
-    "cypress/e2e/**/*.{js,ts}"
+    "e2e/[filepath].{js,ts}"
   ],
   "json": {
     "enabled": true,
-    "output": "cypress/results/cucumber-json/cucumber-report.json"
+    "output": "results/cucumber-json/cucumber-report.json"
   },
   "html": {
     "enabled": true
   },
   "messages": {
     "enabled": true,
-    "output": "cypress/results/cucumber-messages.ndjson"
+    "output": "results/cucumber-messages.ndjson"
   }
 }

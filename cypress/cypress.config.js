@@ -18,12 +18,12 @@ dotenv.config({ path: envPath });
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:8888',
-    specPattern: 'cypress/e2e/**/*.feature',
-    supportFile: 'cypress/support/e2e.js',
+    specPattern: 'e2e/**/*.feature',
+    supportFile: 'support/e2e.js',
     video: false,
     screenshotOnRunFailure: true,
-    screenshotsFolder: 'cypress/results/screenshots',
-    videosFolder: 'cypress/results/videos',
+    screenshotsFolder: 'results/screenshots',
+    videosFolder: 'results/videos',
     viewportWidth: 1280,
     viewportHeight: 720,
     defaultCommandTimeout: 10000,
