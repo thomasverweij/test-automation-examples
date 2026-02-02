@@ -76,6 +76,12 @@ cd robotframework
 TEST_ENV=test uv run robotcode robot --outputdir results tests/with-test-data.robot
 ```
 
+## cypress/
+Example e2e testsing scenarios with cypress and cucumber
+```
+npx cypress run --config-file cypress/cypress.config.js
+```
+
 ## pytest/
 API tests using pytest. Uses openapi-python-client to automatically generate API client from openapi spec file.
 ```

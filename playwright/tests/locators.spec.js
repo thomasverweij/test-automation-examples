@@ -147,7 +147,6 @@ test.describe('Locator Examples - Text-Based Selectors', () => {
   test('should find button by exact text match', async ({ page }) => {
     const button = page.getByRole('button', { name: 'Exact Text Button', exact: true });
     await expect(button).toBeVisible();
-    
     const content = page.locator('#text-exact-content');
     await expect(content).not.toHaveClass(/show/);
     

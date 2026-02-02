@@ -14,12 +14,16 @@
   "dependencies": {
     "@playwright/test": "^1.58.0",
     "@types/node": "^25.0.10",
-    "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "nodemon": "^3.1.11",
-    "speakeasy": "^2.0.0",
     "swagger-ui-express": "^5.0.1",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "@badeball/cypress-cucumber-preprocessor": "^24.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "cypress": "^15.9.0",
+    "cypress-xpath": "^2.0.1",
+    "dotenv": "^17.2.3",
+    "speakeasy": "^2.0.0"
   }
 }

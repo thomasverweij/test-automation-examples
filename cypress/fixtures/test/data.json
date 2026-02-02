@@ -1,0 +1,7 @@
+{
+  "searchTerm": "Laptop",
+  "expectedProducts": [
+    "Gaming Laptop",
+    "Laptop Stand"
+  ]
+}
