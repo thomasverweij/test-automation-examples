@@ -2,6 +2,7 @@
 Repository containing test automation code examples.
 
 ## Todo
+- update readme with links and better descriptions
 - playwright browser upload
 - playwright api testing
 - playwright a11y testing
