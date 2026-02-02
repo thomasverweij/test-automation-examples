@@ -1,0 +1,324 @@
+openapi: 3.0.3
+info:
+  title: Test Automation Examples API
+  description: |
+    API documentation for the Test Automation Examples web application.
+    
+    This application provides various endpoints designed for testing automation scenarios,
+    including authentication, reliable/unreliable APIs, and slow responses.
+    
+    ## Authentication
+    The application uses session-based authentication with optional 2FA for some users.
+    
+    ## Test Users
+    - **user1** / password1 (requires 2FA)
+    - **user2** / password2 (no 2FA)
+  version: 1.0.0
+  contact:
+    name: Test Automation Examples
+servers:
+  - url: http://localhost:8888
+    description: Local development server
+
+tags:
+  - name: Authentication
+    description: Authentication and session management endpoints
+  - name: API
+    description: JSON API endpoints for testing
+
+paths:
+  /auth/status:
+    get:
+      tags:
+        - Authentication
+      summary: Get authentication status
+      description: Returns the current authentication status and user information
+      operationId: getAuthStatus
+      responses:
+        '200':
+          description: Authentication status retrieved successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/AuthenticatedStatus'
+                  - $ref: '#/components/schemas/UnauthenticatedStatus'
+              examples:
+                authenticated:
+                  summary: User is authenticated
+                  value:
+                    authenticated: true
+                    userId: user1
+                    name: User One
+                unauthenticated:
+                  summary: User is not authenticated
+                  value:
+                    authenticated: false
+
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: Login with username and password
+      description: |
+        Authenticate a user with username and password.
+        - user1 requires 2FA and will redirect to /2fa
+        - user2 logs in directly without 2FA
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: Username for authentication
+                  example: user2
+                password:
+                  type: string
+                  format: password
+                  description: User password
+                  example: password2
+      responses:
+        '302':
+          description: Redirect to homepage or 2FA page
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Redirect location (/ or /2fa)
+        '401':
+          description: Invalid credentials
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid credentials
+
+  /verify-2fa:
+    post:
+      tags:
+        - Authentication
+      summary: Verify 2FA code
+      description: Verify the 2FA code for users that require two-factor authentication
+      operationId: verify2FA
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - code
+              properties:
+                code:
+                  type: string
+                  description: 6-digit 2FA code
+                  example: "123456"
+                  pattern: '^\d{6}$'
+      responses:
+        '302':
+          description: Redirect to homepage on success
+          headers:
+            Location:
+              schema:
+                type: string
+                example: /
+        '400':
+          description: No pending login
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: No pending login
+        '401':
+          description: Invalid 2FA code
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid 2FA code
+
+  /logout:
+    get:
+      tags:
+        - Authentication
+      summary: Logout
+      description: Destroy the current session and logout the user
+      operationId: logout
+      responses:
+        '302':
+          description: Redirect to homepage
+          headers:
+            Location:
+              schema:
+                type: string
+                example: /
+        '500':
+          description: Could not log out
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Could not log out
+
+  /api/data:
+    get:
+      tags:
+        - API
+      summary: Get sample data
+      description: Returns a simple JSON response with sample data
+      operationId: getData
+      responses:
+        '200':
+          description: Sample data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataResponse'
+
+  /api/unreliable:
+    get:
+      tags:
+        - API
+      summary: Unreliable API endpoint
+      description: |
+        An endpoint that randomly returns either success or failure (500 error).
+        This is useful for testing retry logic and error handling in automation tests.
+        
+        **Success rate: 50%**
+      operationId: getUnreliable
+      responses:
+        '200':
+          description: Request succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '500':
+          description: Internal Server Error (randomly triggered)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/slow:
+    get:
+      tags:
+        - API
+      summary: Slow response endpoint
+      description: |
+        An endpoint that returns a response after a random delay between 100ms and 1100ms.
+        This is useful for testing timeout handling and performance scenarios.
+      operationId: getSlow
+      responses:
+        '200':
+          description: Slow response completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlowResponse'
+
+components:
+  schemas:
+    AuthenticatedStatus:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+          example: true
+        userId:
+          type: string
+          example: user1
+        name:
+          type: string
+          example: User One
+      required:
+        - authenticated
+        - userId
+        - name
+
+    UnauthenticatedStatus:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+          example: false
+      required:
+        - authenticated
+
+    DataResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Hello from API
+        timestamp:
+          type: string
+          format: date-time
+          example: "2026-02-02T12:00:00.000Z"
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: string
+              example: ["item1", "item2", "item3"]
+            status:
+              type: string
+              example: success
+      required:
+        - message
+        - timestamp
+        - data
+
+    SuccessResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Request succeeded
+        timestamp:
+          type: string
+          format: date-time
+          example: "2026-02-02T12:00:00.000Z"
+      required:
+        - message
+        - timestamp
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Internal Server Error
+        message:
+          type: string
+          example: This endpoint randomly fails
+      required:
+        - error
+        - message
+
+    SlowResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Slow response completed
+        delay:
+          type: string
+          example: "543ms"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2026-02-02T12:00:00.000Z"
+      required:
+        - message
+        - delay
+        - timestamp

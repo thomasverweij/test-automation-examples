@@ -4,12 +4,17 @@ import path from 'path';
 import speakeasy from 'speakeasy';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import swaggerUi from 'swagger-ui-express';
+import yaml from 'yamljs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8888;
+
+// Load OpenAPI specification
+const openapiSpec = yaml.load(path.join(__dirname, 'openapi.yaml'));
 
 // Static 2FA secret for testing (user1)
 const TWO_FA_SECRET = 'JBSWY3DPEBLW64TMMQ======';  // Static secret for consistent TOTP generation
@@ -24,6 +29,20 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60000 }
 }));
+
+// OpenAPI / Swagger UI
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(openapiSpec, {
+  customSiteTitle: 'Test Automation Examples API',
+  customCss: '.swagger-ui .topbar { display: none }'
+}));
+app.get('/api-docs/spec.json', (req, res) => {
+  res.json(openapiSpec);
+});
+app.get('/api-docs/spec.yaml', (req, res) => {
+  res.type('text/yaml');
+  res.sendFile(path.join(__dirname, 'openapi.yaml'));
+});
 
 // Sample users for login
 const USERS = {
@@ -177,6 +196,7 @@ app.get('/api/slow', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Test Automation Examples Web App running on http://localhost:${PORT}`);
+  console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
   console.log('\nDemo Users for testing:');
   console.log('  User 1 (with 2FA): user1 / password1');
   console.log('  User 2 (without 2FA): user2 / password2');
