@@ -1,0 +1,60 @@
+trigger: none
+
+pr: none
+
+schedules:
+  - cron: '0 2 * * *'
+    displayName: 'Nightly run at 2 AM'
+    branches:
+      include:
+        - main
+    always: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  nodeVersion: '25.x'
+
+jobs:
+  - job: PlaywrightTests
+    displayName: 'Run Playwright Tests'
+    timeoutInMinutes: 60
+    
+    steps:
+      - checkout: self
+        displayName: 'Checkout code'
+
+      - task: NodeTool@0
+        displayName: 'Setup Node.js'
+        inputs:
+          versionSpec: $(nodeVersion)
+
+      - script: npm ci
+        displayName: 'Install dependencies'
+
+      - script: npx playwright install --with-deps chrome-for-testing
+        displayName: 'Install Playwright Browsers'
+
+      - script: npx playwright test --config playwright/playwright.pipeline.config.js --project pipeline --reporter=html,junit
+        displayName: 'Run Playwright tests'
+        continueOnError: true
+
+      - task: PublishTestResults@2
+        displayName: 'Publish Test Results'
+        condition: always()
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/results.xml'
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+          mergeTestResults: true
+          failTaskOnFailedTests: false
+          testRunTitle: 'Playwright Tests'
+
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Playwright Report'
+        condition: always()
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/playwright-report'
+          artifact: 'playwright-report'
+          publishLocation: 'pipeline'
