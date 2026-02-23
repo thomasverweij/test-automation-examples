@@ -27,6 +27,15 @@
                         <div id="delayed-element" class="delayed-message">✓ I appeared after a delay!</div>
                     </div>
 
+                    <!-- Dynamic Elements Flaky Example -->
+                    <div class="element-card">
+                        <div class="element-label">Dynamic Inputs (Flaky DOM Example)</div>
+                            <input type="text" id="flaky-input-1" placeholder="Input 1" autocomplete="off" onblur="handleFlakyInput()">
+                            <input type="text" id="flaky-input-2" placeholder="Input 2" autocomplete="off" onblur="handleFlakyInput()">
+                            <button id="flaky-submit" onclick="handleFlakySubmit()">Submit</button>
+                        <div id="flaky-message" class="dynamic-content"></div>
+                    </div>
+
                     <div class="element-card">
                         <div class="element-label">Element Changes State</div>
                         <button id="state-button" onclick="changeState(this)">Not Clicked</button>
@@ -70,6 +79,51 @@
             setTimeout(() => {
                 document.getElementById(elementId).style.display = 'block';
             }, 1500);
+        }
+
+        // Flaky Dynamic Inputs Example
+        let flakyInputs = { 1: '', 2: '' };
+
+        function handleFlakyInput() {
+            const input1 = document.getElementById('flaky-input-1');
+            const input2 = document.getElementById('flaky-input-2');
+            fetch('/api/flaky-input', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ value1: input1.value, value2: input2.value })
+            })
+            .then(res => res.json())
+            .then(data => {
+                flakyInputs[1] = data.value1;
+                flakyInputs[2] = data.value2;
+                // Update input 1
+                const parent1 = input1.parentNode;
+                const newInput1 = document.createElement('input');
+                newInput1.type = 'text';
+                newInput1.id = 'flaky-input-1';
+                newInput1.placeholder = 'Input 1';
+                newInput1.value = flakyInputs[1];
+                newInput1.autocomplete = 'off';
+                newInput1.onblur = function() { handleFlakyInput(); };
+                parent1.replaceChild(newInput1, input1);
+                // Update input 2
+                const parent2 = input2.parentNode;
+                const newInput2 = document.createElement('input');
+                newInput2.type = 'text';
+                newInput2.id = 'flaky-input-2';
+                newInput2.placeholder = 'Input 2';
+                newInput2.value = flakyInputs[2];
+                newInput2.autocomplete = 'off';
+                newInput2.onblur = function() { handleFlakyInput(); };
+                parent2.replaceChild(newInput2, input2);
+            });
+        }
+
+        function handleFlakySubmit() {
+            const val1 = document.getElementById('flaky-input-1').value;
+            const val2 = document.getElementById('flaky-input-2').value;
+            document.getElementById('flaky-message').textContent = `Submitted: Input 1 = "${val1}", Input 2 = "${val2}"`;
+            document.getElementById('flaky-message').classList.add('show')
         }
 
         function changeState(button) {

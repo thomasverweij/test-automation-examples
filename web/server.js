@@ -162,6 +162,14 @@ app.get('/api/data', (req, res) => {
   });
 });
 
+// API for flaky input simulation
+app.post('/api/flaky-input', (req, res) => {
+  const { value1, value2 } = req.body;
+  setTimeout(() => {
+    res.json({ value1, value2 });
+  }, 1000);
+});
+
 // API that randomly returns 500 error
 app.get('/api/unreliable', (req, res) => {
   const randomNum = Math.random();

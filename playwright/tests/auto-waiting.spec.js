@@ -115,4 +115,33 @@ test.describe('Auto-Waiting Scenarios', () => {
     await page.locator('.modal-card').getByRole('button', { name: 'Close' }).click();
     await expect(page.locator('#modal-overlay')).not.toBeVisible();
   });
+
+
+test('fills both inputs and validates message', async ({ page }) => {
+    const input1 = page.locator('#flaky-input-1');
+    const input2 = page.locator('#flaky-input-2');
+
+    async function waitForFlakyInputRequest() {
+       await page.waitForResponse(resp => resp.url().includes('/api/flaky-input') && resp.status() === 200)
+    }
+    
+    await input1.fill('foo')
+    await Promise.all([
+      waitForFlakyInputRequest(),
+      input1.blur()
+    ]);
+    
+    await input2.fill('bar')
+    await Promise.all([
+      waitForFlakyInputRequest(),
+      input2.blur()
+    ]);
+
+    // Submit the form
+    await page.click('#flaky-submit');
+
+    // Validate the message
+    await expect(page.locator('#flaky-message')).toHaveText('Submitted: Input 1 = "foo", Input 2 = "bar"');
+  });
+
 });
