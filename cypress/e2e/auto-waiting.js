@@ -112,3 +112,16 @@ Then('the modal should have text {string}', (text) => {
 When('the user clicks the modal close button', () => {
   cy.get('.modal-card').contains('button', 'Close').click();
 });
+
+When('the user fills both flaky inputs and submits the form', () => {
+  cy.intercept('POST', '/api/flaky-input').as('flakyInput');
+  cy.get('#flaky-input-1').type('foo').blur();
+  cy.wait('@flakyInput');
+  cy.get('#flaky-input-2').type('bar').blur();
+  cy.wait('@flakyInput');
+  cy.get('#flaky-submit').click();
+});
+
+Then('the flaky message should be correct', () => {
+  cy.get('#flaky-message').should('have.text', 'Submitted: Input 1 = "foo", Input 2 = "bar"');
+});

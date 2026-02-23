@@ -61,3 +61,7 @@ Feature: Auto-Waiting Scenarios
     Then the modal overlay should be visible
     When the user clicks the modal close button
     Then the modal overlay should not be visible
+
+  Scenario: Fill both flaky inputs and validate message
+    When the user fills both flaky inputs and submits the form
+    Then the flaky message should be correct
