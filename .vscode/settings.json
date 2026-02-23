@@ -1,3 +1,7 @@
 {
-    "robotcode.editor.4SpacesTab": false
+    "robotcode.editor.4SpacesTab": false,
+    "cucumberautocomplete.steps": [
+        "cypress/e2e/**/*.{js,ts}",
+    ],
+    "cucumberautocomplete.strictGherkinCompletion": true
 }
