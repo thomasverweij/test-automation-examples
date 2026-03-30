@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Test Automation Cheatsheet</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f5;
+    --surface: #ffffff;
+    --surface2: #f9f9f9;
+    --border: #e0e0e0;
+    --cy: #1a7f5a;
+    --cy-dim: #e8f5ee;
+    --cy-border: #b6deca;
+    --pw: #1d4ed8;
+    --pw-dim: #eff6ff;
+    --pw-border: #bfdbfe;
+    --text: #1a1a1a;
+    --muted: #888;
+    --label: #555;
+    --accent: #444;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 40px 32px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  h1 span.cy { color: var(--cy); }
+  h1 span.pw { color: var(--pw); }
+  h1 span.amp { color: var(--muted); margin: 0 6px; }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--label);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .legend-dot.cy { background: var(--cy); }
+  .legend-dot.pw { background: var(--pw); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(540px, 1fr));
+    gap: 12px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .card-number {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--label);
+  }
+
+  .snippets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .snippet {
+    padding: 12px 14px;
+  }
+
+  .snippet:first-child {
+    border-right: 1px solid var(--border);
+  }
+
+  .snippet-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .snippet-label.cy { color: var(--cy); }
+  .snippet-label.pw { color: var(--pw); }
+
+  .snippet-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  .snippet-label.cy::before { background: var(--cy); }
+  .snippet-label.pw::before { background: var(--pw); }
+
+  .snippet.cy-side { background: var(--surface); }
+  .snippet.pw-side { background: var(--surface); }
+
+  pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    white-space: pre;
+    overflow-x: auto;
+    color: #333;
+  }
+
+  /* Syntax highlighting */
+  .kw  { color: #7c3aed; }
+  .fn  { color: #1d4ed8; }
+  .str { color: #15803d; }
+  .cm  { color: #999; font-style: italic; }
+  .cy-hl { color: var(--cy); font-weight: 600; }
+  .pw-hl { color: var(--pw); font-weight: 600; }
+  .arg { color: #b45309; }
+  .punc { color: #0e7490; }
+
+  .note {
+    font-size: 0.68rem;
+    line-height: 1.55;
+    color: var(--label);
+    padding: 7px 10px;
+    margin-top: 10px;
+    border-left: 2px solid var(--border);
+    background: #f3f3f3;
+    border-radius: 0 3px 3px 0;
+  }
+
+  .note strong { font-weight: 600; color: var(--text); }
+
+  .note code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.67rem;
+    background: #e8e8e8;
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: var(--text);
+  }
+
+  .note.cy-note { }
+  .note.pw-note { }
+
+  .snippet-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Gotchas section */
+  .section-header {
+    max-width: 1400px;
+    margin: 40px auto 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-header-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-header-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .gotcha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 12px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .gotcha-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .gotcha-card.cy-card  { border-top: 3px solid var(--cy); }
+  .gotcha-card.pw-card  { border-top: 3px solid var(--pw); }
+  .gotcha-card.both-card { border-top: 3px solid var(--accent); }
+
+  .gotcha-header {
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .gotcha-badge {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .cy-card  .gotcha-badge { background: var(--cy-dim);  color: var(--cy);  border: 1px solid var(--cy-border); }
+  .pw-card  .gotcha-badge { background: var(--pw-dim);  color: var(--pw);  border: 1px solid var(--pw-border); }
+  .both-card .gotcha-badge { background: #f0f0f0; color: #444; border: 1px solid #ccc; }
+
+  .gotcha-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .gotcha-body {
+    padding: 10px 12px;
+    font-size: 0.71rem;
+    line-height: 1.6;
+    color: var(--label);
+  }
+
+  .gotcha-body p { margin-bottom: 8px; }
+  .gotcha-body p:last-child { margin-bottom: 0; }
+  .gotcha-body strong { color: var(--text); font-weight: 600; }
+
+  .gotcha-body code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.67rem;
+    background: #ebebeb;
+    padding: 1px 4px;
+    border-radius: 3px;
+    color: var(--text);
+  }
+
+  .gotcha-body .warn {
+    display: inline-block;
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 3px;
+    padding: 6px 10px;
+    margin-top: 6px;
+    width: 100%;
+    color: #78350f;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    line-height: 1.5;
+  }
+
+  .gotcha-body .good {
+    display: inline-block;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 3px;
+    padding: 6px 10px;
+    margin-top: 4px;
+    width: 100%;
+    color: #14532d;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .snippets { grid-template-columns: 1fr; }
+    .snippet:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+    .grid { grid-template-columns: 1fr; }
+    body { padding: 24px 16px 48px; }
+  }
+
+  @media print {
+    body { background: #fff; padding: 20px; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="cy">Cypress</span><span class="amp">&</span><span class="pw">Playwright</span></h1>
+  <p class="tagline">Web Test Automation Cheatsheet</p>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot cy"></span> Cypress</div>
+    <div class="legend-item"><span class="legend-dot pw"></span> Playwright</div>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- 1. Initialize Project -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">01</div>
+      <div class="card-title">Initialize Project</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm"># install</span>
+npm install cypress <span class="kw">--save-dev</span>
+
+<span class="cm"># open launcher</span>
+npx cypress open
+
+<span class="cm"># run headless</span>
+npx cypress run</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm"># install + scaffold</span>
+npm init playwright@latest
+
+<span class="cm"># install browsers</span>
+npx playwright install
+
+<span class="cm"># run tests</span>
+npx playwright test</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1b. Project File Tree -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">02</div>
+      <div class="card-title">Typical Project Structure</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">my-project/</span>
+├── <span class="fn">cypress/</span>
+│   ├── <span class="fn">e2e/</span>
+│   │   └── <span class="str">login.cy.js</span>       <span class="cm"># test files</span>
+│   ├── <span class="fn">fixtures/</span>
+│   │   └── <span class="str">user.json</span>         <span class="cm"># static test data</span>
+│   ├── <span class="fn">support/</span>
+│   │   ├── <span class="str">commands.js</span>       <span class="cm"># custom cy commands</span>
+│   │   └── <span class="str">e2e.js</span>            <span class="cm"># global setup/imports</span>
+│   └── <span class="fn">downloads/</span>            <span class="cm"># files downloaded in tests</span>
+├── <span class="str">cypress.config.js</span>         <span class="cm"># baseUrl, timeouts, etc.</span>
+└── <span class="str">package.json</span></pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">my-project/</span>
+├── <span class="fn">tests/</span>
+│   └── <span class="str">login.spec.ts</span>         <span class="cm"># test files</span>
+├── <span class="fn">pages/</span>                    <span class="cm"># page object models (optional)</span>
+│   └── <span class="str">LoginPage.ts</span>
+├── <span class="fn">test-results/</span>             <span class="cm"># failure screenshots/videos</span>
+├── <span class="fn">playwright-report/</span>        <span class="cm"># HTML report output</span>
+├── <span class="str">auth.json</span>                 <span class="cm"># saved auth state (storageState)</span>
+├── <span class="str">playwright.config.ts</span>      <span class="cm"># baseURL, browsers, timeouts</span>
+└── <span class="str">package.json</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Basic Test Case Boilerplate -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">03</div>
+      <div class="card-title">Basic Test Case Boilerplate</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <span class="kw">=></span> <span class="punc">{</span>
+  <span class="fn">beforeEach</span>(() <span class="kw">=></span> <span class="punc">{</span>
+    <span class="cm">// runs before each test</span>
+  <span class="punc">}</span>);
+
+  <span class="fn">it</span>(<span class="str">'should do something'</span>, () <span class="kw">=></span> <span class="punc">{</span>
+    <span class="cm">// test steps here</span>
+  <span class="punc">}</span>);
+<span class="punc">}</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="kw">import</span> <span class="punc">{</span> test, expect <span class="punc">}</span> <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+
+test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <span class="kw">=></span> <span class="punc">{</span>
+  test.<span class="fn">beforeEach</span>(<span class="kw">async</span> (<span class="arg">{ page }</span>) <span class="kw">=></span> <span class="punc">{</span>
+    <span class="cm">// runs before each test</span>
+  <span class="punc">}</span>);
+
+  <span class="fn">test</span>(<span class="str">'should do something'</span>, <span class="kw">async</span> (<span class="arg">{ page }</span>) <span class="kw">=></span> <span class="punc">{</span>
+    <span class="cm">// test steps here</span>
+  <span class="punc">}</span>);
+<span class="punc">}</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Navigate to URL -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">04</div>
+      <div class="card-title">Navigate to URL</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// absolute URL</span>
+<span class="cy-hl">cy</span>.<span class="fn">visit</span>(<span class="str">'https://example.com'</span>);
+
+<span class="cm">// relative (uses baseUrl from config)</span>
+<span class="cy-hl">cy</span>.<span class="fn">visit</span>(<span class="str">'/login'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// absolute URL</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">goto</span>(<span class="str">'https://example.com'</span>);
+
+<span class="cm">// relative (uses baseURL from config)</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">goto</span>(<span class="str">'/login'</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Find Element by CSS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">05</div>
+      <div class="card-title">Find Element by CSS</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'#submit-btn'</span>);
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.nav-item'</span>);
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'[data-testid="card"]'</span>);
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'input[type="email"]'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// define locator — chain action after</span>
+<span class="cm">// e.g. await locator.click()</span>
+<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'#submit-btn'</span>);
+<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.nav-item'</span>);
+<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'[data-testid="card"]'</span>);
+<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'input[type="email"]'</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Find Element by Role -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">06</div>
+      <div class="card-title">Find Element by Role</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// requires @testing-library/cypress</span>
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span>
+  name: <span class="str">'Submit'</span>
+<span class="punc">}</span>);
+
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'navigation'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// built-in, no extra libs needed</span>
+<span class="cm">// chain e.g. .click(), .fill(), expect()</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span>
+  name: <span class="str">'Submit'</span>
+<span class="punc">}</span>);
+
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'navigation'</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Find Element by Label -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">07</div>
+      <div class="card-title">Find Element by Label</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// requires @testing-library/cypress</span>
+<span class="cy-hl">cy</span>.<span class="fn">findByLabelText</span>(<span class="str">'Email address'</span>);
+
+<span class="cy-hl">cy</span>.<span class="fn">findByLabelText</span>(<span class="str">/password/i</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// built-in</span>
+<span class="cm">// chain e.g. .fill(), .click(), expect()</span>
+<span class="pw-hl">page</span>.<span class="fn">getByLabel</span>(<span class="str">'Email address'</span>);
+
+<span class="pw-hl">page</span>.<span class="fn">getByLabel</span>(<span class="str">/password/i</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Find Element by Text -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">08</div>
+      <div class="card-title">Find Element by Text</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// exact match</span>
+<span class="cy-hl">cy</span>.<span class="fn">contains</span>(<span class="str">'Sign in'</span>);
+
+<span class="cm">// scoped to element type</span>
+<span class="cy-hl">cy</span>.<span class="fn">contains</span>(<span class="str">'button'</span>, <span class="str">'Sign in'</span>);
+
+<span class="cm">// regex</span>
+<span class="cy-hl">cy</span>.<span class="fn">contains</span>(<span class="str">/sign in/i</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// exact match</span>
+<span class="pw-hl">page</span>.<span class="fn">getByText</span>(<span class="str">'Sign in'</span>);
+
+<span class="cm">// partial match</span>
+<span class="pw-hl">page</span>.<span class="fn">getByText</span>(<span class="str">'Sign in'</span>, <span class="punc">{</span> exact: <span class="kw">false</span> <span class="punc">}</span>);
+
+<span class="cm">// regex — chain action after</span>
+<span class="pw-hl">page</span>.<span class="fn">getByText</span>(<span class="str">/sign in/i</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Filter Elements -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">09</div>
+      <div class="card-title">Filter Elements</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// by index</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'li'</span>).<span class="fn">eq</span>(<span class="arg">0</span>);
+
+<span class="cm">// by text — returns all matches</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'li'</span>).<span class="fn">filter</span>(<span class="str">':contains("Active")'</span>);
+
+<span class="cm">// preferred: scoped contains</span>
+<span class="cy-hl">cy</span>.<span class="fn">contains</span>(<span class="str">'li'</span>, <span class="str">'Active'</span>);
+
+<span class="cm">// first / last</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'tr'</span>).<span class="fn">first</span>();
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'tr'</span>).<span class="fn">last</span>();</pre>
+        <div class="note cy-note">
+          <strong>Timing:</strong> <code>cy.get('li').filter()</code> waits for at least one <code>li</code> to exist, then filters immediately — it does <em>not</em> retry waiting for matching text to appear. <code>cy.contains('li', 'Active')</code> is preferred: it retries until a match is found and returns the <code>li</code> itself.<br><br>
+          <strong>Scope:</strong> Both <code>:contains()</code> and <code>cy.contains()</code> match text anywhere in the element's subtree — text inside a nested <code>&lt;span&gt;</code> will still match.
+        </div>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// by index</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'li'</span>).<span class="fn">nth</span>(<span class="arg">0</span>).<span class="fn">click</span>();
+
+<span class="cm">// by contained text — returns all matches</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'li'</span>).<span class="fn">filter</span>(<span class="punc">{</span> hasText: <span class="str">'Active'</span> <span class="punc">}</span>).<span class="fn">click</span>();
+
+<span class="cm">// first / last</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'tr'</span>).<span class="fn">first</span>().<span class="fn">click</span>();
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'tr'</span>).<span class="fn">last</span>().<span class="fn">click</span>();</pre>
+        <div class="note pw-note">
+          <strong>Timing:</strong> <code>locator()</code> is lazy — nothing runs until you act or assert. At that point Playwright <em>auto-waits</em>, so it will keep retrying until a matching <code>li</code> appears. Safer than Cypress's <code>get().filter()</code> for async content.<br><br>
+          <strong>Scope:</strong> <code>hasText</code> also matches text anywhere in the element's subtree — text inside a nested <code>&lt;span&gt;</code> inside the <code>li</code> will still match.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Click Element -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">10</div>
+      <div class="card-title">Click Element</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// single click</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'button'</span>).<span class="fn">click</span>();
+
+<span class="cm">// double click</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.item'</span>).<span class="fn">dblclick</span>();
+
+<span class="cm">// right click</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.item'</span>).<span class="fn">rightclick</span>();</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// single click</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'button'</span>).<span class="fn">click</span>();
+
+<span class="cm">// double click</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.item'</span>).<span class="fn">dblclick</span>();
+
+<span class="cm">// right click</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.item'</span>).<span class="fn">click</span>(<span class="punc">{</span> button: <span class="str">'right'</span> <span class="punc">}</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Fill Element Text -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">11</div>
+      <div class="card-title">Fill Element Text</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// clear then type</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'input[name="email"]'</span>)
+  .<span class="fn">clear</span>()
+  .<span class="fn">type</span>(<span class="str">'<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aedbddcbdceecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a>'</span>);
+
+<span class="cm">// type special keys</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'input'</span>).<span class="fn">type</span>(<span class="str">'{enter}'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// clear then fill (recommended)</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'input[name="email"]'</span>)
+  .<span class="fn">fill</span>(<span class="str">'<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="daafa9bfa89abfa2bbb7aab6bff4b9b5b7">[email&#160;protected]</a>'</span>);
+
+<span class="cm">// press special keys</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'input'</span>).<span class="fn">press</span>(<span class="str">'Enter'</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Select from Dropdown -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">12</div>
+      <div class="card-title">Select Element from Dropdown</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// by visible text</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'select#country'</span>)
+  .<span class="fn">select</span>(<span class="str">'Netherlands'</span>);
+
+<span class="cm">// by value attribute</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'select#country'</span>)
+  .<span class="fn">select</span>(<span class="str">'nl'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// by visible text</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'select#country'</span>)
+  .<span class="fn">selectOption</span>(<span class="punc">{</span> label: <span class="str">'Netherlands'</span> <span class="punc">}</span>);
+
+<span class="cm">// by value attribute</span>
+<span class="kw">await</span> <span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'select#country'</span>)
+  .<span class="fn">selectOption</span>(<span class="str">'nl'</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. Validate Element Text -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">13</div>
+      <div class="card-title">Validate Element Text</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// exact text</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'h1'</span>)
+  .<span class="fn">should</span>(<span class="str">'have.text'</span>, <span class="str">'Welcome'</span>);
+
+<span class="cm">// partial text</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.message'</span>)
+  .<span class="fn">should</span>(<span class="str">'contain.text'</span>, <span class="str">'Success'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// exact text</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'h1'</span>))
+  .<span class="fn">toHaveText</span>(<span class="str">'Welcome'</span>);
+
+<span class="cm">// partial text</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.message'</span>))
+  .<span class="fn">toContainText</span>(<span class="str">'Success'</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13. Validate Element Visibility -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">14</div>
+      <div class="card-title">Validate Element Visibility</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// visible</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.modal'</span>)
+  .<span class="fn">should</span>(<span class="str">'be.visible'</span>);
+
+<span class="cm">// not visible</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.tooltip'</span>)
+  .<span class="fn">should</span>(<span class="str">'not.be.visible'</span>);
+
+<span class="cm">// exists in DOM</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'.item'</span>)
+  .<span class="fn">should</span>(<span class="str">'exist'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// visible</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.modal'</span>))
+  .<span class="fn">toBeVisible</span>();
+
+<span class="cm">// not visible</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.tooltip'</span>))
+  .<span class="fn">toBeHidden</span>();
+
+<span class="cm">// in DOM</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'.item'</span>))
+  .<span class="fn">toBeAttached</span>();</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- 14. Validate Element Enabled -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-number">15</div>
+      <div class="card-title">Validate Element Enabled</div>
+    </div>
+    <div class="snippets">
+      <div class="snippet cy-side">
+        <div class="snippet-label cy">Cypress</div>
+        <pre><span class="cm">// enabled</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'button[type="submit"]'</span>)
+  .<span class="fn">should</span>(<span class="str">'be.enabled'</span>);
+
+<span class="cm">// disabled</span>
+<span class="cy-hl">cy</span>.<span class="fn">get</span>(<span class="str">'input#code'</span>)
+  .<span class="fn">should</span>(<span class="str">'be.disabled'</span>);</pre>
+      </div>
+      <div class="snippet pw-side">
+        <div class="snippet-label pw">Playwright</div>
+        <pre><span class="cm">// enabled</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'button[type="submit"]'</span>))
+  .<span class="fn">toBeEnabled</span>();
+
+<span class="cm">// disabled</span>
+<span class="kw">await</span> <span class="fn">expect</span>(<span class="pw-hl">page</span>.<span class="fn">locator</span>(<span class="str">'input#code'</span>))
+  .<span class="fn">toBeDisabled</span>();</pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- GOTCHAS SECTION -->
+  <div class="section-header">
+    <div class="section-header-line"></div>
+    <div class="section-header-label">&#x26A0; Known Gotchas &amp; Frustrations</div>
+    <div class="section-header-line"></div>
+  </div>
+
+  <div class="gotcha-grid">
+
+    <div class="gotcha-card cy-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Cypress</span>
+        <span class="gotcha-title">Commands silently change the subject</span>
+      </div>
+      <div class="gotcha-body">
+        <p>Some commands replace the current subject with a different element. <code>.contains()</code> returns the <strong>deepest</strong> matching descendant, not the element you called it on. <code>.find()</code> replaces the subject entirely with the found child.</p>
+        <span class="warn">// subject becomes &lt;span&gt; inside li, not the &lt;li&gt;
+cy.get('li').contains('Active').click()</span>
+        <span class="good">// scoped contains keeps li as subject
+cy.contains('li', 'Active').click()</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card cy-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Cypress</span>
+        <span class="gotcha-title">No real async/await — command queue only</span>
+      </div>
+      <div class="gotcha-body">
+        <p>Cypress uses an internal command queue, not real Promises. You cannot <code>await</code> a cy command or store its result in a variable for later use.</p>
+        <span class="warn">// ✗ does NOT work as expected
+const el = cy.get('input')
+el.type('hello')</span>
+        <span class="good">// ✓ use .then() to work with values
+cy.get('input').then(($el) =&gt; {
+  cy.wrap($el).type('hello')
+})</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card cy-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Cypress</span>
+        <span class="gotcha-title">Only the last command in a chain retries</span>
+      </div>
+      <div class="gotcha-body">
+        <p>In a chain like <code>cy.get('ul').find('li').should(...)</code>, only <code>find('li')</code> is retried on failure. If <code>ul</code> doesn't exist yet when the chain runs, the whole thing fails immediately.</p>
+        <span class="warn">// ✗ if ul loads late, get() won't re-run
+cy.get('ul').find('li').should('have.length', 3)</span>
+        <span class="good">// ✓ target the final element directly
+cy.get('ul li').should('have.length', 3)</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card cy-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Cypress</span>
+        <span class="gotcha-title">.its() and .invoke() don't retry meaningfully</span>
+      </div>
+      <div class="gotcha-body">
+        <p><code>.its('length')</code> reads a value at the moment it is evaluated and does not reliably retry if the value hasn't reached the expected state yet. Pair it with a <code>.should()</code> to force retrying.</p>
+        <span class="warn">// ✗ may read length before list fully renders
+cy.get('li').its('length').should('eq', 5)</span>
+        <span class="good">// ✓ should() on the subject retries correctly
+cy.get('li').should('have.length', 5)</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card cy-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Cypress</span>
+        <span class="gotcha-title">cy.intercept() — later registrations win</span>
+      </div>
+      <div class="gotcha-body">
+        <p>When multiple intercepts match the same request, the <strong>last registered one takes priority</strong>. An intercept set up in the test body silently overrides one set up in <code>beforeEach</code>.</p>
+        <span class="warn">// beforeEach intercept gets silently overridden
+beforeEach(() =&gt; cy.intercept('GET', '/api/user', { id: 1 }))
+it('test', () =&gt; {
+  cy.intercept('GET', '/api/user', { id: 99 }) // wins
+})</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card pw-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Playwright</span>
+        <span class="gotcha-title">Locators are strict — multiple matches throw</span>
+      </div>
+      <div class="gotcha-body">
+        <p>If a locator matches more than one element, any action (<code>.click()</code>, <code>.fill()</code>, etc.) throws an error. Cypress silently acts on the first match. You must explicitly narrow the locator.</p>
+        <span class="warn">// ✗ throws if more than one button matches
+await page.locator('button').click()</span>
+        <span class="good">// ✓ narrow with .first(), .nth(), or .filter()
+await page.locator('button').first().click()
+await page.locator('button').filter({ hasText: 'Save' }).click()</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card pw-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Playwright</span>
+        <span class="gotcha-title">Fresh browser context per test — no shared state</span>
+      </div>
+      <div class="gotcha-body">
+        <p>Each test gets a new browser context by default. Cookies, localStorage, and session state are <strong>not carried over</strong> between tests. Use <code>storageState</code> in config to share auth state.</p>
+        <span class="good">// ✓ share login state via storageState in config
+use: {
+  storageState: 'auth.json'
+}</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card pw-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Playwright</span>
+        <span class="gotcha-title">waitForNavigation() is a race condition</span>
+      </div>
+      <div class="gotcha-body">
+        <p>Calling <code>click()</code> then <code>waitForNavigation()</code> sequentially is a race — the navigation can complete before the wait is registered. Always set up the wait <strong>before</strong> triggering the action.</p>
+        <span class="warn">// ✗ navigation may finish before wait is set up
+await page.click('a#submit')
+await page.waitForNavigation()</span>
+        <span class="good">// ✓ register wait first, trigger after
+await Promise.all([
+  page.waitForNavigation(),
+  page.click('a#submit')
+])</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card pw-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Playwright</span>
+        <span class="gotcha-title">Auto-wait doesn't cover network requests</span>
+      </div>
+      <div class="gotcha-body">
+        <p>Playwright waits for elements to be visible and stable before acting, but does <strong>not</strong> automatically wait for background network requests. A button can be clickable while the data it depends on is still loading.</p>
+        <span class="good">// ✓ wait for a specific response
+await page.waitForResponse('**/api/data')
+
+// ✓ or wait until network is idle
+await page.waitForLoadState('networkidle')</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card both-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Both</span>
+        <span class="gotcha-title">Index selectors are fragile</span>
+      </div>
+      <div class="gotcha-body">
+        <p><code>.eq(0)</code> / <code>.nth(0)</code> grab whichever element happens to be first at that moment. If a list renders incrementally or its order can change, index-based selectors produce flaky tests.</p>
+        <span class="warn">// ✗ fragile — breaks if order or rendering changes
+cy.get('li').eq(0).click()
+page.locator('li').nth(0).click()</span>
+        <span class="good">// ✓ resilient — select by stable identity
+cy.contains('li', 'Dashboard').click()
+page.getByRole('listitem', { name: 'Dashboard' }).click()</span>
+      </div>
+    </div>
+
+    <div class="gotcha-card both-card">
+      <div class="gotcha-header">
+        <span class="gotcha-badge">Both</span>
+        <span class="gotcha-title">Hidden &#x2260; non-existent</span>
+      </div>
+      <div class="gotcha-body">
+        <p>Both tools distinguish between an element that is <strong>in the DOM but hidden</strong> (e.g. <code>display:none</code>) and one that <strong>doesn't exist at all</strong>. The error messages are different and easy to misread.</p>
+        <span class="warn">// Cypress
+cy.get('.modal').should('exist')      // passes if hidden
+cy.get('.modal').should('be.visible')  // fails if hidden</span>
+        <span class="warn">// Playwright
+expect(locator).toBeAttached() // passes if hidden
+expect(locator).toBeVisible()  // fails if hidden</span>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
