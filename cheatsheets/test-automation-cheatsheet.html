@@ -86,7 +86,7 @@
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(540px, 1fr));
+    grid-template-columns: 1fr;
     gap: 12px;
     max-width: 1400px;
     margin: 0 auto;
@@ -128,7 +128,37 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--label);
+    flex: 1;
   }
+
+  .card-header-links {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .doc-link {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .doc-link.cy-link {
+    color: var(--cy);
+    background: var(--cy-dim);
+    border: 1px solid var(--cy-border);
+  }
+
+  .doc-link.pw-link {
+    color: var(--pw);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+  }
+
+  .doc-link:hover { opacity: 0.75; }
 
   .snippets {
     display: grid;
@@ -222,6 +252,67 @@
     height: 100%;
   }
 
+  /* Index */
+  .index {
+    max-width: 640px;
+    margin: 0 auto 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    column-count: 2;
+    column-gap: 32px;
+  }
+
+  .index-section {
+    break-inside: avoid;
+  }
+
+  .index-section-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    margin-top: 0;
+  }
+
+  .index-list {
+    list-style: none;
+    margin: 0 0 4px;
+    padding: 0;
+  }
+
+  .index-list li {
+    font-size: 0.73rem;
+    line-height: 1.9;
+  }
+
+  .index-list a {
+    color: var(--label);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .index-list a:hover { color: var(--text); }
+
+  .index-badge {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 1px 5px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .cy-badge   { background: var(--cy-dim);  color: var(--cy);  border: 1px solid var(--cy-border); }
+  .pw-badge   { background: #eff6ff;        color: var(--pw);  border: 1px solid #bfdbfe; }
+  .both-badge { background: #f0f0f0;        color: #555;       border: 1px solid #ccc; }
+
   /* Gotchas section */
   .section-header {
     max-width: 1400px;
@@ -248,7 +339,7 @@
 
   .gotcha-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    grid-template-columns: 1fr;
     gap: 12px;
     max-width: 1400px;
     margin: 0 auto;
@@ -345,7 +436,6 @@
   @media (max-width: 600px) {
     .snippets { grid-template-columns: 1fr; }
     .snippet:first-child { border-right: none; border-bottom: 1px solid var(--border); }
-    .grid { grid-template-columns: 1fr; }
     body { padding: 24px 16px 48px; }
   }
 
@@ -366,13 +456,53 @@
   </div>
 </header>
 
+<nav class="index">
+  <div class="index-section">
+    <div class="index-section-label">Reference</div>
+    <ol class="index-list">
+      <li><a href="#card-01">Initialize Project</a></li>
+      <li><a href="#card-02">Typical Project Structure</a></li>
+      <li><a href="#card-03">Basic Test Case Boilerplate</a></li>
+      <li><a href="#card-04">Navigate to URL</a></li>
+      <li><a href="#card-05">Find Element by CSS</a></li>
+      <li><a href="#card-06">Find Element by Role</a></li>
+      <li><a href="#card-07">Find Element by Label</a></li>
+      <li><a href="#card-08">Find Element by Text</a></li>
+      <li><a href="#card-09">Filter Elements</a></li>
+      <li><a href="#card-10">Click Element</a></li>
+      <li><a href="#card-11">Fill Element Text</a></li>
+      <li><a href="#card-12">Select Element from Dropdown</a></li>
+      <li><a href="#card-13">Validate Element Text</a></li>
+      <li><a href="#card-14">Validate Element Visibility</a></li>
+      <li><a href="#card-15">Validate Element Enabled</a></li>
+    </ol>
+  </div>
+  <div class="index-section">
+    <div class="index-section-label">Gotchas</div>
+    <ul class="index-list">
+      <li><a href="#gotcha-01"><span class="index-badge cy-badge">cy</span> Commands silently change the subject</a></li>
+      <li><a href="#gotcha-02"><span class="index-badge cy-badge">cy</span> No real async/await</a></li>
+      <li><a href="#gotcha-03"><span class="index-badge cy-badge">cy</span> Only the last command in a chain retries</a></li>
+      <li><a href="#gotcha-04"><span class="index-badge cy-badge">cy</span> .its() and .invoke() don't retry meaningfully</a></li>
+      <li><a href="#gotcha-05"><span class="index-badge cy-badge">cy</span> cy.intercept() — later registrations win</a></li>
+      <li><a href="#gotcha-06"><span class="index-badge pw-badge">pw</span> Locators are strict — multiple matches throw</a></li>
+      <li><a href="#gotcha-07"><span class="index-badge pw-badge">pw</span> Fresh browser context per test</a></li>
+      <li><a href="#gotcha-08"><span class="index-badge pw-badge">pw</span> waitForNavigation() is a race condition</a></li>
+      <li><a href="#gotcha-09"><span class="index-badge pw-badge">pw</span> Auto-wait doesn't cover network requests</a></li>
+      <li><a href="#gotcha-10"><span class="index-badge both-badge">both</span> Index selectors are fragile</a></li>
+      <li><a href="#gotcha-11"><span class="index-badge both-badge">both</span> Hidden ≠ non-existent</a></li>
+    </ul>
+  </div>
+</nav>
+
 <div class="grid">
 
   <!-- 1. Initialize Project -->
   <div class="card">
     <div class="card-header">
       <div class="card-number">01</div>
-      <div class="card-title">Initialize Project</div>
+      <div class="card-title" id="card-01">Initialize Project</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/app/get-started/install-cypress" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/intro" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -404,7 +534,8 @@ npx playwright test</pre>
   <div class="card">
     <div class="card-header">
       <div class="card-number">02</div>
-      <div class="card-title">Typical Project Structure</div>
+      <div class="card-title" id="card-02">Typical Project Structure</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/app/core-concepts/writing-and-organizing-tests" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/test-projects" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -442,12 +573,18 @@ npx playwright test</pre>
   <div class="card">
     <div class="card-header">
       <div class="card-number">03</div>
-      <div class="card-title">Basic Test Case Boilerplate</div>
+      <div class="card-title" id="card-03">Basic Test Case Boilerplate</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/app/core-concepts/writing-and-organizing-tests#Test-Structure" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-test" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
         <div class="snippet-label cy">Cypress</div>
-        <pre><span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <span class="kw">=></span> <span class="punc">{</span>
+        <pre><span class="cm">// cy, describe, it are globals — no import needed</span>
+<span class="cm">// for @testing-library/cypress (used in role/label cards):</span>
+<span class="cm">// add to cypress/support/e2e.js:</span>
+<span class="kw">import</span> <span class="str">'@testing-library/cypress/add-commands'</span>;
+
+<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <span class="kw">=></span> <span class="punc">{</span>
   <span class="fn">beforeEach</span>(() <span class="kw">=></span> <span class="punc">{</span>
     <span class="cm">// runs before each test</span>
   <span class="punc">}</span>);
@@ -478,7 +615,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">04</div>
-      <div class="card-title">Navigate to URL</div>
+      <div class="card-title" id="card-04">Navigate to URL</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/visit" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-page#page-goto" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -504,7 +642,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">05</div>
-      <div class="card-title">Find Element by CSS</div>
+      <div class="card-title" id="card-05">Find Element by CSS</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/get" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/locators#locate-by-css-or-xpath" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -530,27 +669,59 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">06</div>
-      <div class="card-title">Find Element by Role</div>
+      <div class="card-title" id="card-06">Find Element by Role</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://testing-library.com/docs/cypress-testing-library/intro" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/locators#locate-by-role" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
         <div class="snippet-label cy">Cypress</div>
         <pre><span class="cm">// requires @testing-library/cypress</span>
-<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span>
-  name: <span class="str">'Submit'</span>
-<span class="punc">}</span>);
 
-<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'navigation'</span>);</pre>
+<span class="cm">// by role only</span>
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'navigation'</span>);
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'dialog'</span>);
+
+<span class="cm">// with accessible name (text / aria-label)</span>
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span> name: <span class="str">'Submit'</span> <span class="punc">}</span>);
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'link'</span>, <span class="punc">{</span> name: <span class="str">'Read more'</span> <span class="punc">}</span>);
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'heading'</span>, <span class="punc">{</span> name: <span class="str">/welcome/i</span> <span class="punc">}</span>);
+
+<span class="cm">// case-insensitive name match</span>
+<span class="cy-hl">cy</span>.<span class="fn">findByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span> name: <span class="str">/submit/i</span> <span class="punc">}</span>);
+
+<span class="cm">// common roles:</span>
+<span class="cm">// button, link, textbox, checkbox, radio,</span>
+<span class="cm">// combobox, listbox, option, menuitem,</span>
+<span class="cm">// heading, banner, navigation, main,</span>
+<span class="cm">// dialog, alert, table, row, cell, img</span></pre>
       </div>
       <div class="snippet pw-side">
         <div class="snippet-label pw">Playwright</div>
-        <pre><span class="cm">// built-in, no extra libs needed</span>
-<span class="cm">// chain e.g. .click(), .fill(), expect()</span>
-<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span>
-  name: <span class="str">'Submit'</span>
-<span class="punc">}</span>);
+        <pre><span class="cm">// built-in — chain action after</span>
 
-<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'navigation'</span>);</pre>
+<span class="cm">// by role only</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'navigation'</span>);
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'dialog'</span>);
+
+<span class="cm">// with accessible name (text / aria-label)</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span> name: <span class="str">'Submit'</span> <span class="punc">}</span>);
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'link'</span>, <span class="punc">{</span> name: <span class="str">'Read more'</span> <span class="punc">}</span>);
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'heading'</span>, <span class="punc">{</span> name: <span class="str">/welcome/i</span> <span class="punc">}</span>);
+
+<span class="cm">// exact: false for partial name match</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span> name: <span class="str">'Submit'</span>, exact: <span class="kw">false</span> <span class="punc">}</span>);
+
+<span class="cm">// level for headings (h1–h6)</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'heading'</span>, <span class="punc">{</span> level: <span class="arg">1</span> <span class="punc">}</span>);
+
+<span class="cm">// checked state for checkboxes / radios</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'checkbox'</span>, <span class="punc">{</span> checked: <span class="kw">true</span> <span class="punc">}</span>);
+
+<span class="cm">// expanded state for dropdowns / trees</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'combobox'</span>, <span class="punc">{</span> expanded: <span class="kw">false</span> <span class="punc">}</span>);
+
+<span class="cm">// disabled state</span>
+<span class="pw-hl">page</span>.<span class="fn">getByRole</span>(<span class="str">'button'</span>, <span class="punc">{</span> disabled: <span class="kw">true</span> <span class="punc">}</span>);</pre>
       </div>
     </div>
   </div>
@@ -559,7 +730,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">07</div>
-      <div class="card-title">Find Element by Label</div>
+      <div class="card-title" id="card-07">Find Element by Label</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://testing-library.com/docs/cypress-testing-library/intro" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/locators#locate-by-label" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -584,7 +756,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">08</div>
-      <div class="card-title">Find Element by Text</div>
+      <div class="card-title" id="card-08">Find Element by Text</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/contains" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/locators#locate-by-text" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -616,7 +789,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">09</div>
-      <div class="card-title">Filter Elements</div>
+      <div class="card-title" id="card-09">Filter Elements</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/filter" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/locators#filtering-locators" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -661,7 +835,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">10</div>
-      <div class="card-title">Click Element</div>
+      <div class="card-title" id="card-10">Click Element</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/click" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-locator#locator-click" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -693,7 +868,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">11</div>
-      <div class="card-title">Fill Element Text</div>
+      <div class="card-title" id="card-11">Fill Element Text</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/type" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-locator#locator-fill" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -722,7 +898,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">12</div>
-      <div class="card-title">Select Element from Dropdown</div>
+      <div class="card-title" id="card-12">Select Element from Dropdown</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/select" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-locator#locator-select-option" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -752,7 +929,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">13</div>
-      <div class="card-title">Validate Element Text</div>
+      <div class="card-title" id="card-13">Validate Element Text</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/should" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-have-text" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -782,7 +960,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">14</div>
-      <div class="card-title">Validate Element Visibility</div>
+      <div class="card-title" id="card-14">Validate Element Visibility</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/should" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-be-visible" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -820,7 +999,8 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
   <div class="card">
     <div class="card-header">
       <div class="card-number">15</div>
-      <div class="card-title">Validate Element Enabled</div>
+      <div class="card-title" id="card-15">Validate Element Enabled</div>
+      <div class="card-header-links"><a class="doc-link cy-link" href="https://docs.cypress.io/api/commands/should" target="_blank">cy docs</a><a class="doc-link pw-link" href="https://playwright.dev/docs/api/class-locatorassertions#locator-assertions-to-be-enabled" target="_blank">pw docs</a></div>
     </div>
     <div class="snippets">
       <div class="snippet cy-side">
@@ -860,7 +1040,7 @@ test.<span class="fn">describe</span>(<span class="str">'My Suite'</span>, () <s
     <div class="gotcha-card cy-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Cypress</span>
-        <span class="gotcha-title">Commands silently change the subject</span>
+        <span class="gotcha-title" id="gotcha-01">Commands silently change the subject</span>
       </div>
       <div class="gotcha-body">
         <p>Some commands replace the current subject with a different element. <code>.contains()</code> returns the <strong>deepest</strong> matching descendant, not the element you called it on. <code>.find()</code> replaces the subject entirely with the found child.</p>
@@ -874,7 +1054,7 @@ cy.contains('li', 'Active').click()</span>
     <div class="gotcha-card cy-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Cypress</span>
-        <span class="gotcha-title">No real async/await — command queue only</span>
+        <span class="gotcha-title" id="gotcha-02">No real async/await — command queue only</span>
       </div>
       <div class="gotcha-body">
         <p>Cypress uses an internal command queue, not real Promises. You cannot <code>await</code> a cy command or store its result in a variable for later use.</p>
@@ -891,7 +1071,7 @@ cy.get('input').then(($el) =&gt; {
     <div class="gotcha-card cy-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Cypress</span>
-        <span class="gotcha-title">Only the last command in a chain retries</span>
+        <span class="gotcha-title" id="gotcha-03">Only the last command in a chain retries</span>
       </div>
       <div class="gotcha-body">
         <p>In a chain like <code>cy.get('ul').find('li').should(...)</code>, only <code>find('li')</code> is retried on failure. If <code>ul</code> doesn't exist yet when the chain runs, the whole thing fails immediately.</p>
@@ -919,7 +1099,7 @@ cy.get('li').should('have.length', 5)</span>
     <div class="gotcha-card cy-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Cypress</span>
-        <span class="gotcha-title">cy.intercept() — later registrations win</span>
+        <span class="gotcha-title" id="gotcha-05">cy.intercept() — later registrations win</span>
       </div>
       <div class="gotcha-body">
         <p>When multiple intercepts match the same request, the <strong>last registered one takes priority</strong>. An intercept set up in the test body silently overrides one set up in <code>beforeEach</code>.</p>
@@ -934,7 +1114,7 @@ it('test', () =&gt; {
     <div class="gotcha-card pw-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Playwright</span>
-        <span class="gotcha-title">Locators are strict — multiple matches throw</span>
+        <span class="gotcha-title" id="gotcha-06">Locators are strict — multiple matches throw</span>
       </div>
       <div class="gotcha-body">
         <p>If a locator matches more than one element, any action (<code>.click()</code>, <code>.fill()</code>, etc.) throws an error. Cypress silently acts on the first match. You must explicitly narrow the locator.</p>
@@ -949,7 +1129,7 @@ await page.locator('button').filter({ hasText: 'Save' }).click()</span>
     <div class="gotcha-card pw-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Playwright</span>
-        <span class="gotcha-title">Fresh browser context per test — no shared state</span>
+        <span class="gotcha-title" id="gotcha-07">Fresh browser context per test — no shared state</span>
       </div>
       <div class="gotcha-body">
         <p>Each test gets a new browser context by default. Cookies, localStorage, and session state are <strong>not carried over</strong> between tests. Use <code>storageState</code> in config to share auth state.</p>
@@ -963,7 +1143,7 @@ use: {
     <div class="gotcha-card pw-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Playwright</span>
-        <span class="gotcha-title">waitForNavigation() is a race condition</span>
+        <span class="gotcha-title" id="gotcha-08">waitForNavigation() is a race condition</span>
       </div>
       <div class="gotcha-body">
         <p>Calling <code>click()</code> then <code>waitForNavigation()</code> sequentially is a race — the navigation can complete before the wait is registered. Always set up the wait <strong>before</strong> triggering the action.</p>
@@ -996,7 +1176,7 @@ await page.waitForLoadState('networkidle')</span>
     <div class="gotcha-card both-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Both</span>
-        <span class="gotcha-title">Index selectors are fragile</span>
+        <span class="gotcha-title" id="gotcha-10">Index selectors are fragile</span>
       </div>
       <div class="gotcha-body">
         <p><code>.eq(0)</code> / <code>.nth(0)</code> grab whichever element happens to be first at that moment. If a list renders incrementally or its order can change, index-based selectors produce flaky tests.</p>
@@ -1012,7 +1192,7 @@ page.getByRole('listitem', { name: 'Dashboard' }).click()</span>
     <div class="gotcha-card both-card">
       <div class="gotcha-header">
         <span class="gotcha-badge">Both</span>
-        <span class="gotcha-title">Hidden &#x2260; non-existent</span>
+        <span class="gotcha-title" id="gotcha-11">Hidden &#x2260; non-existent</span>
       </div>
       <div class="gotcha-body">
         <p>Both tools distinguish between an element that is <strong>in the DOM but hidden</strong> (e.g. <code>display:none</code>) and one that <strong>doesn't exist at all</strong>. The error messages are different and easy to misread.</p>
